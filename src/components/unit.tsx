@@ -1,8 +1,9 @@
 "use client";
-
-import { useConfigureContext } from "@/app/configure/context";
+import { useClickAway } from "@uidotdev/usehooks";
 import { useLongPress } from "@uidotdev/usehooks";
 import { X } from "lucide-react";
+
+import { useConfigureContext } from "@/app/configure/context";
 
 interface UnitProps {
   text: string;
@@ -18,10 +19,17 @@ export default function Unit({ text }: UnitProps) {
       threshold: 500,
     }
   );
-  
+
+  const boxRef = useClickAway(() => {
+    if (shaking) {
+      toggleIsShaking();
+    }
+  }) as React.MutableRefObject<HTMLDivElement>;
+
   return (
     <div
       {...attrs}
+      ref={boxRef}
       className={`relative ${shaking && `animate-jiggle origin-jiggle`}`}
     >
       <div className="bg-neutral-100 hover:bg-neutral-100/50 dark:bg-neutral-900 hover:dark:bg-neutral-900/50 text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer">
