@@ -27,9 +27,23 @@ export default {
           "80%": { backgroundColor: "var(--gh-green-one)" },
           "100%": { backgroundColor: "var(--gh-green-five)" },
         },
+        jiggle: {
+          '0%': {
+            transform: 'rotate(-1deg)',
+            'animation-timing-function': 'ease-in',
+          },
+          '50%': {
+            transform: 'rotate(1.5deg)',
+            'animation-timing-function': 'ease-out',
+          },
+        },
       },
       animation: {
         interpolate: "interpolate 5s infinite",
+        jiggle: 'jiggle 0.25s infinite',
+      },
+      transformOrigin: {
+        "jiggle": "50% 10%",
       },
     },
   },
