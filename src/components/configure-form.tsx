@@ -1,19 +1,14 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { useOptimistic } from "react";
 
 import { IUnit } from "@/interfaces";
 import { addUnit } from "@/actions";
 import { useConfigureContext } from "@/app/configure/context";
 
 export default function ConfigureForm() {
-  const { units, setUnits } = useConfigureContext();
-
-  const [optimisticUnits, addOptimisticUnit] = useOptimistic(
-    units,
-    (state: IUnit[], newUnit: IUnit) => [...state, newUnit]
-  );
+  const { units, setUnits, optimisticUnits, setOptimisticUnits } =
+    useConfigureContext();
 
   const handleAddUnit = async (formData: FormData) => {
     const unitName = formData.get("unit") as string;
@@ -21,11 +16,16 @@ export default function ConfigureForm() {
       unit: unitName,
       ref: "",
     };
-    addOptimisticUnit(dummyUnit);
+    setOptimisticUnits({
+      action: "add",
+      looseUnit: dummyUnit,
+    });
     try {
       const newUnit = await addUnit(formData);
       setUnits((prev) => [...prev, newUnit]);
+      setOptimisticUnits({ action: "reset", prefetchedUnits: units });
     } catch (error) {
+      setOptimisticUnits({ action: "delete", looseUnit: dummyUnit });
       console.error("Failed to add unit:", error);
     }
   };

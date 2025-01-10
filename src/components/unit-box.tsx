@@ -1,29 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
-import { useOptimistic, useCallback, useState, useTransition } from "react";
+import { useEffect, useState, useCallback, useTransition } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
-
 import Unit from "@/components/unit";
 import { IUnit } from "@/interfaces";
 import { deleteUnit } from "@/actions/delete-unit";
 import { useConfigureContext } from "@/app/configure/context";
 
-export default function UnitBox({
-  prefetchedUnits,
-}: {
-  prefetchedUnits: IUnit[];
-}) {
-  const { units, setUnits, shaking, toggleIsShaking } = useConfigureContext();
-  const [optimisticUnits, updateOptimisticUnits] = useOptimistic<
-    IUnit[],
-    string
-  >(units, (state, pathToDelete) =>
-    state.filter((unit) => unit.ref !== pathToDelete)
-  );
+export default function UnitBox({ prefetchedUnits }: { prefetchedUnits: IUnit[] }) {
+  const {
+    units,
+    setUnits,
+    optimisticUnits,
+    setOptimisticUnits,
+    shaking,
+    toggleIsShaking,
+  } = useConfigureContext();
 
   useEffect(() => {
     setUnits(prefetchedUnits);
+    startTransition(() => {
+      setOptimisticUnits({
+        action: "reset",
+        prefetchedUnits,
+      });
+    });
   }, []);
 
   const [deleting, setDeleting] = useState<string>("");
@@ -35,31 +36,33 @@ export default function UnitBox({
   }) as React.MutableRefObject<HTMLDivElement>;
 
   const handleDelete = useCallback(
-    async (path: string) => {
+    async (unit: IUnit) => {
       const previousUnits = [...units];
-      setDeleting(path);
+      setDeleting(unit.ref);
       startTransition(() => {
-        updateOptimisticUnits(path);
+        setOptimisticUnits({
+          action: "delete",
+          looseUnit: unit,
+        });
       });
       try {
-        await deleteUnit(path);
-        setUnits((prev) => prev.filter((unit) => unit.ref !== path));
+        await deleteUnit(unit.ref);
+        setUnits((prev) => prev.filter((u) => u.ref !== unit.ref));
       } catch (error: any) {
         setUnits(previousUnits);
       } finally {
         setDeleting("");
       }
     },
-    [units, updateOptimisticUnits]
+    [units, setOptimisticUnits]
   );
 
   return (
     <div ref={boxRef} className="flex flex-wrap gap-3">
-      {optimisticUnits.map((item, index) => (
+      {optimisticUnits.map((item) => (
         <Unit
-          key={index}
-          text={item.unit}
-          path={item.ref}
+          key={item.ref}
+          unit={item}
           deleting={deleting}
           handleDelete={handleDelete}
         />

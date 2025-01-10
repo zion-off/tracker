@@ -4,17 +4,16 @@ import { useLongPress } from "@uidotdev/usehooks";
 import { X } from "lucide-react";
 
 import { useConfigureContext } from "@/app/configure/context";
+import { IUnit } from "@/interfaces";
 
 interface UnitProps {
-  text: string;
-  path: string;
+  unit: IUnit;
   deleting: string;
-  handleDelete: (path: string) => void;
+  handleDelete: (unit: IUnit) => void;
 }
 
 export default function Unit({
-  text,
-  path,
+  unit,
   deleting,
   handleDelete,
 }: UnitProps) {
@@ -35,18 +34,18 @@ export default function Unit({
     >
       <div
         className={`bg-neutral-100  text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer ${
-          deleting === path
+          deleting === unit.ref
             ? `bg-neutral-50 dark:bg-neutral-800`
             : `bg-neutral-100 dark:bg-neutral-900`
         } ${!shaking && `hover:bg-neutral-50  hover:dark:bg-neutral-800`}`}
       >
         <div className="text-neutral-500 dark:text-neutral-400 no-select">
-          {text}
+          {unit.unit}
         </div>
       </div>
       {shaking && (
         <X
-          onClick={() => handleDelete(path)}
+          onClick={() => handleDelete(unit)}
           size={20}
           className="p-1 bg-gray-300 hover:bg-gray-400 dark:stroke-zinc-900 rounded-full dark:border dark:border-zinc-800 absolute right-0 translate-x-1/2 -translate-y-1/2 top-0 cursor-pointer"
         />

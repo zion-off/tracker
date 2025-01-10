@@ -1,13 +1,40 @@
 "use client";
 
-import { useState, createContext, useContext, ReactNode } from "react";
+import {
+  useState,
+  useOptimistic,
+  createContext,
+  useContext,
+  ReactNode,
+} from "react";
 
-import { IUnit, IConfigureContext } from "@/interfaces";
+import { IUnit, OptimisticAction, IConfigureContext } from "@/interfaces";
 
 const ConfigureContext = createContext<IConfigureContext | null>(null);
 
 export function ConfigureProvider({ children }: { children: ReactNode }) {
   const [units, setUnits] = useState<IUnit[]>([]);
+  const [optimisticUnits, setOptimisticUnits] = useOptimistic(
+    units,
+    (
+      state: IUnit[],
+      { action, looseUnit, prefetchedUnits }: OptimisticAction
+    ) => {
+      switch (action) {
+        case "add":
+          return looseUnit ? [...state, looseUnit] : state;
+        case "delete":
+          return looseUnit
+            ? state.filter((unit) => unit.ref !== looseUnit.ref)
+            : state;
+        case "reset":
+          return [...(prefetchedUnits || [])];
+        default:
+          return state;
+      }
+    }
+  );
+
   const [shaking, setIsShaking] = useState(false);
   const toggleIsShaking = () => {
     setIsShaking((prev) => !prev);
@@ -16,6 +43,8 @@ export function ConfigureProvider({ children }: { children: ReactNode }) {
   const value = {
     units,
     setUnits,
+    optimisticUnits,
+    setOptimisticUnits,
     shaking,
     toggleIsShaking,
   };
