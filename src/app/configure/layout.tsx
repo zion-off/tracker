@@ -1,6 +1,8 @@
+"use client";
+
 import { ConfigureProvider } from "./context";
 
-export default async function ConfigureLayout({
+export default function ConfigureLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

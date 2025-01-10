@@ -1,6 +1,5 @@
 import { Plus } from "lucide-react";
-
-import Unit from "@/components/unit";
+import UnitBox from "@/components/unit-box";
 
 export default function Configure() {
   return (
@@ -20,14 +19,12 @@ export default function Configure() {
               className="focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-0 w-full placeholder:text-muted-foreground text-base dark:bg-neutral-800 px-2 py-2"
             />
             <button className="h-full">
-              <Plus className="bg-neutral-100 dark:bg-neutral-900 border dark:border-zinc-800 h-4/5 rounded-md w-8 stroke-neutral-400 p-1" />
+              <Plus className="bg-neutral-100 hover:bg-neutral-100/50 dark:bg-neutral-900 hover:dark:bg-neutral-900/50 border dark:border-zinc-800 h-4/5 rounded-md w-8 stroke-neutral-500 dark:stroke-neutral-400 p-1" />
             </button>
           </div>
         </form>
 
-        <div className="flex flex-wrap gap-1 ">
-          <Unit text="Read about 1 topic" />
-        </div>
+        <UnitBox />
       </div>
     </main>
   );

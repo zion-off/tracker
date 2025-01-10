@@ -18,14 +18,14 @@ export default function Unit({ text }: UnitProps) {
       threshold: 500,
     }
   );
+  
   return (
     <div
       {...attrs}
       className={`relative ${shaking && `animate-jiggle origin-jiggle`}`}
     >
-      <div className="bg-gray-100 dark:bg-neutral-900 text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer">
-        <div>{text}</div>
-        <div>C</div>
+      <div className="bg-neutral-100 hover:bg-neutral-100/50 dark:bg-neutral-900 hover:dark:bg-neutral-900/50 text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer">
+        <div className="text-neutral-500 dark:text-neutral-400">{text}</div>
       </div>
       {shaking && (
         <X
