@@ -26,6 +26,7 @@ export default function UnitBox({ units }: { units: IUnit[] }) {
       throw new Error("Unable to delete unit", error.message);
     }
   }
+  
   return (
     <div ref={boxRef} className="flex flex-wrap gap-3">
       {configuredUnits.map((item, index) => (

@@ -1,11 +1,8 @@
 import { Suspense } from "react";
-import { collection, addDoc, doc, serverTimestamp } from "firebase/firestore";
 import { Plus } from "lucide-react";
 
 import { UnitSuspense } from "@/components/unit-suspense";
-import { getUnits } from "@/actions";
-import { db } from "@/firebase";
-import { auth } from "@/auth";
+import { addUnit, getUnits } from "@/actions";
 import UnitBox from "@/components/unit-box";
 
 export default async function Configure() {
@@ -18,19 +15,7 @@ export default async function Configure() {
           className="flex gap-2"
           action={async (data: FormData) => {
             "use server";
-            const unit = data.get("unit");
-            const session = await auth();
-            const id = session?.user?.id as string;
-            const user = doc(db, "users", id);
-            try {
-              const doc = await addDoc(collection(db, "units"), {
-                owner: user,
-                unit: unit,
-                created_at: serverTimestamp(),
-              });
-            } catch (e) {
-              console.error("Error adding unit:", e);
-            }
+            addUnit(data);
           }}
         >
           <div className="group flex h-10 w-full rounded-md border dark:border-zinc-800 px-1 dark:bg-neutral-800 focus-within:outline-none md:text-sm dark:focus-within:border-zinc-700 focus-within:border-gray-300 justify-between gap-2">
