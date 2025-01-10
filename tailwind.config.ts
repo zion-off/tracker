@@ -11,6 +11,25 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "gh-green-1": "var(--gh-green-one)",
+        "gh-green-2": "var(--gh-green-two)",
+        "gh-green-3": "var(--gh-green-three)",
+        "gh-green-4": "var(--gh-green-four)",
+        "gh-green-5": "var(--gh-green-five)",
+        "gh-outline": "var(--gh-outline)",
+      },
+      keyframes: {
+        interpolate: {
+          "0%": { backgroundColor: "var(--gh-green-five)" },
+          "20%": { backgroundColor: "var(--gh-green-four)" },
+          "40%": { backgroundColor: "var(--gh-green-three)" },
+          "60%": { backgroundColor: "var(--gh-green-two)" },
+          "80%": { backgroundColor: "var(--gh-green-one)" },
+          "100%": { backgroundColor: "var(--gh-green-five)" },
+        },
+      },
+      animation: {
+        interpolate: "interpolate 5s infinite",
       },
     },
   },

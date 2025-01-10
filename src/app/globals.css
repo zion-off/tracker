@@ -5,12 +5,24 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --gh-green-one: rgb(33, 110, 57);
+  --gh-green-two: rgb(48, 161, 78);
+  --gh-green-three: rgb(64, 196, 99);
+  --gh-green-four: rgb(155, 233, 168);
+  --gh-green-five: rgb(235, 237, 240);
+  --gh-outline: rgba(27, 31, 35, 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --gh-green-one: rgb(57, 211, 83);
+    --gh-green-two: rgb(38, 166, 65);
+    --gh-green-three: rgb(0, 109, 50);
+    --gh-green-four: rgb(14, 68, 41);
+    --gh-green-five: rgb(22, 27, 34);
+    --gh-outline: rgba(255, 255, 255, 0.05);
   }
 }
 
