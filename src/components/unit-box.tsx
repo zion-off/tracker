@@ -1,5 +1,7 @@
-import Unit from "@/components/unit";
+import { collection, addDoc } from "firebase/firestore";
 
+import Unit from "@/components/unit";
+import { db } from "@/firebase";
 export default function UnitBox() {
   return (
     <div className="flex flex-wrap gap-1 ">

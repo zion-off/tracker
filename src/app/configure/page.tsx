@@ -1,4 +1,8 @@
+import { collection, addDoc } from "firebase/firestore";
 import { Plus } from "lucide-react";
+
+import { db } from "@/firebase";
+import { auth } from "@/auth";
 import UnitBox from "@/components/unit-box";
 
 export default function Configure() {
@@ -8,13 +12,28 @@ export default function Configure() {
       <div className="flex flex-col gap-5 w-4/5 md:w-1/3">
         <form
           className="flex gap-2"
-          action={async () => {
+          action={async (data: FormData) => {
             "use server";
-            //   await signIn("github");
+            const session = await auth();
+            const email = session?.user?.id;
+            const unit = data.get("unit");
+            console.log(email);
+            // try {
+            //   const docRef = await addDoc(collection(db, "users"), {
+            //     first: "Ada",
+            //     last: "Lovelace",
+            //     born: 1815,
+            //   });
+            //   console.log("Document written with ID: ", docRef.id);
+            // } catch (e) {
+            //   console.error("Error adding document: ", e);
+            // }
+            console.log(unit);
           }}
         >
           <div className="group flex h-10 w-full rounded-md border dark:border-zinc-800 px-1 dark:bg-neutral-800 focus-within:outline-none md:text-sm dark:focus-within:border-zinc-700 focus-within:border-gray-300 justify-between gap-2">
             <input
+              name="unit"
               placeholder="Read 1 chapter..."
               className="focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-0 w-full placeholder:text-muted-foreground dark:bg-neutral-800 px-2 py-2 text-sm"
             />
