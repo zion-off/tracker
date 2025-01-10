@@ -1,11 +1,15 @@
-import { collection, addDoc } from "firebase/firestore";
+import { Suspense } from "react";
+import { collection, addDoc, doc, serverTimestamp } from "firebase/firestore";
 import { Plus } from "lucide-react";
 
+import { UnitSuspense } from "@/components/unit-suspense";
+import { getUnits } from "@/actions";
 import { db } from "@/firebase";
 import { auth } from "@/auth";
 import UnitBox from "@/components/unit-box";
 
-export default function Configure() {
+export default async function Configure() {
+  const units = await getUnits();
   return (
     <main className="h-screen w-screen flex flex-col gap-5 items-center justify-center">
       <h2 className="font-bold text-xl text-center ">Configure your units</h2>
@@ -14,21 +18,19 @@ export default function Configure() {
           className="flex gap-2"
           action={async (data: FormData) => {
             "use server";
-            const session = await auth();
-            const id = session?.user?.id;
             const unit = data.get("unit");
-            console.log(id);
-            // try {
-            //   const docRef = await addDoc(collection(db, "users"), {
-            //     first: "Ada",
-            //     last: "Lovelace",
-            //     born: 1815,
-            //   });
-            //   console.log("Document written with ID: ", docRef.id);
-            // } catch (e) {
-            //   console.error("Error adding document: ", e);
-            // }
-            console.log(unit);
+            const session = await auth();
+            const id = session?.user?.id as string;
+            const user = doc(db, "users", id);
+            try {
+              const doc = await addDoc(collection(db, "units"), {
+                owner: user,
+                unit: unit,
+                created_at: serverTimestamp(),
+              });
+            } catch (e) {
+              console.error("Error adding unit:", e);
+            }
           }}
         >
           <div className="group flex h-10 w-full rounded-md border dark:border-zinc-800 px-1 dark:bg-neutral-800 focus-within:outline-none md:text-sm dark:focus-within:border-zinc-700 focus-within:border-gray-300 justify-between gap-2">
@@ -42,8 +44,9 @@ export default function Configure() {
             </button>
           </div>
         </form>
-
-        <UnitBox />
+        <Suspense fallback={<UnitSuspense />}>
+          <UnitBox units={units} />
+        </Suspense>
       </div>
     </main>
   );
