@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 
 export async function createUser(email: string) {
@@ -6,7 +6,7 @@ export async function createUser(email: string) {
     await addDoc(collection(db, "users"), {
       email: email,
       username: email.split("@")[0],
-      created_at: Date.now(),
+      created_at: serverTimestamp(),
     });
     return true;
   } catch (error) {

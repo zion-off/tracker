@@ -15,9 +15,9 @@ export default function Configure() {
           action={async (data: FormData) => {
             "use server";
             const session = await auth();
-            const email = session?.user?.id;
+            const id = session?.user?.id;
             const unit = data.get("unit");
-            console.log(email);
+            console.log(id);
             // try {
             //   const docRef = await addDoc(collection(db, "users"), {
             //     first: "Ada",

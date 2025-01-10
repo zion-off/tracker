@@ -6,7 +6,6 @@ export async function userExists(email: string): Promise<boolean> {
   try {
     const q = query(collection(db, "users"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
-    console.log("QUERY SNAPSHOT", querySnapshot);
     return !querySnapshot.empty;
   } catch (error) {
     return false;
