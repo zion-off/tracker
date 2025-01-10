@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
 import { useState, createContext, useContext, ReactNode } from "react";
 
-interface IConfigureContext {
-  shaking: boolean;
-  toggleIsShaking: () => void;
-}
+import { IUnit, IConfigureContext } from "@/interfaces";
 
 const ConfigureContext = createContext<IConfigureContext | null>(null);
 
 export function ConfigureProvider({ children }: { children: ReactNode }) {
+  const [units, setUnits] = useState<IUnit[]>([]);
   const [shaking, setIsShaking] = useState(false);
   const toggleIsShaking = () => {
     setIsShaking((prev) => !prev);
   };
 
   const value = {
+    units,
+    setUnits,
     shaking,
     toggleIsShaking,
   };
