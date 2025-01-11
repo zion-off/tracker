@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo } from "react";
+
 import { useHomeContext } from "@/context";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const colors = [
   "bg-gh-green-1",
@@ -11,8 +17,31 @@ const colors = [
   "bg-gh-green-5",
 ] as const;
 
+const getDayFromIndex = (dayIndex: number, year = new Date().getFullYear()) => {
+  const date = new Date(year, 0);
+  date.setDate(dayIndex);
+  return date.toLocaleDateString("en-us", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
-export default function Dot({ contribution }: { contribution: number }) {
+const hoverCardWord = (contribution: number, dayIndex: number): string => {
+  if (contribution == 1) {
+    return `1 contribution on ${getDayFromIndex(dayIndex)}`;
+  } else if (contribution === 0 || contribution > 1) {
+    return `${contribution} contribution on ${getDayFromIndex(dayIndex)}`;
+  } else return "";
+};
+
+export default function Dot({
+  contribution,
+  index,
+}: {
+  contribution: number;
+  index: number;
+}) {
   const { maxChartValue } = useHomeContext();
 
   const colorClass = useMemo(() => {
@@ -27,8 +56,13 @@ export default function Dot({ contribution }: { contribution: number }) {
   }, [contribution, maxChartValue]);
 
   return (
-    <div
-      className={`aspect-square ${colorClass} text-xs flex items-center justify-center h-[10px] rounded-sm`}
-    />
+    <HoverCard>
+      <HoverCardTrigger>
+        <div
+          className={`aspect-square ${colorClass} text-xs flex items-center justify-center h-[10px] rounded-sm cursor-pointer`}
+        />
+      </HoverCardTrigger>
+      <HoverCardContent>{hoverCardWord(contribution, index)}</HoverCardContent>
+    </HoverCard>
   );
 }

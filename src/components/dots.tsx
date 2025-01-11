@@ -16,7 +16,7 @@ export default function Dots({ chart }: { chart: number[] }) {
   return (
     <>
       {dots.map((_, index) => (
-        <Dot key={index} contribution={dots[index]} />
+        <Dot key={index} contribution={dots[index]} index={index} />
       ))}
     </>
   );
