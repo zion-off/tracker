@@ -33,7 +33,7 @@ export default function Unit({
       className={`relative origin-jiggle ${shaking && `animate-jiggle`}`}
     >
       <div
-        className={`bg-neutral-100  text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer ${
+        className={`text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer ${
           deleting === unit.ref
             ? `bg-neutral-50 dark:bg-neutral-800`
             : `bg-neutral-100 dark:bg-neutral-900`

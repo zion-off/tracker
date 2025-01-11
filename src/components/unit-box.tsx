@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, startTransition } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 import Unit from "@/components/unit";
 import { IUnit } from "@/interfaces";
-import { deleteUnit } from "@/actions/delete-unit";
+import { deleteUnit } from "@/actions";
 import { useConfigureContext } from "@/app/configure/context";
 
 export default function UnitBox({ prefetchedUnits }: { prefetchedUnits: IUnit[] }) {

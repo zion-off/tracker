@@ -23,6 +23,6 @@ export async function addUnit(data: FormData): Promise<IUnit> {
       ref: doc.path,
     };
   } catch (error: any) {
-    throw new Error("Unable to add unit: ", error.message);
+    throw new Error(`Unable to add unit: ${error.message}`);
   }
 }

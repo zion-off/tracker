@@ -9,8 +9,7 @@ export async function createUser(email: string) {
       created_at: serverTimestamp(),
     });
     return true;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Unable to create user");
+  } catch (error: any) {
+    throw new Error(`Unable to create user: ${error.message}`)
   }
 }
