@@ -62,7 +62,7 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
         {unit.unit}
       </p>
       {count !== 0 && (
-        <div className="bg-slate-300 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 px-2 py-[2px] rounded-full">
+        <div className="bg-slate-300 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 px-2 py-[2px] rounded-full text-xxs">
           {count}
         </div>
       )}
