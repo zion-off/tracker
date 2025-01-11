@@ -11,7 +11,7 @@ export default async function Configure() {
   return (
     <main className="h-screen w-screen flex flex-col gap-5 items-center">
       <div className="basis-1/3 flex flex-col justify-end">
-        <h2 className="font-bold text-xl text-center ">Configure your units</h2>
+        <h2 className="font-bold text-xl text-center no-select">Configure your units</h2>
       </div>
       <div className="w-4/5 md:w-1/3">
         <ConfigureForm />

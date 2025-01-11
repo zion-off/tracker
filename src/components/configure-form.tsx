@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, startTransition } from "react";
+import { v4 } from "uuid";
 import { Plus } from "lucide-react";
 
 import { IUnit } from "@/interfaces";
@@ -7,31 +9,39 @@ import { addUnit } from "@/actions";
 import { useConfigureContext } from "@/app/configure/context";
 
 export default function ConfigureForm() {
-  const { units, setUnits, optimisticUnits, setOptimisticUnits } =
-    useConfigureContext();
+  const { units, setUnits, setOptimisticUnits } = useConfigureContext();
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleAddUnit = async (formData: FormData) => {
-    const unitName = formData.get("unit") as string;
+  const handleAddUnit = async (data: FormData) => {
+    const unitName = data.get("unit") as string;
+    formRef.current?.reset();
     const dummyUnit: IUnit = {
       unit: unitName,
-      ref: "",
+      ref: v4(),
     };
-    setOptimisticUnits({
-      action: "add",
-      looseUnit: dummyUnit,
+    startTransition(() => {
+      setOptimisticUnits({
+        action: "add",
+        looseUnit: dummyUnit,
+      });
     });
     try {
-      const newUnit = await addUnit(formData);
-      setUnits((prev) => [...prev, newUnit]);
-      setOptimisticUnits({ action: "reset", prefetchedUnits: units });
-    } catch (error) {
+      const newUnit = await addUnit(data);
+      startTransition(() => {
+        setUnits((prev) => [...prev, newUnit]);
+        setOptimisticUnits({
+          action: "reset",
+          prefetchedUnits: [...units, newUnit],
+        });
+      });
+    } catch (error: any) {
       setOptimisticUnits({ action: "delete", looseUnit: dummyUnit });
-      console.error("Failed to add unit:", error);
+      throw new Error("Failed to add unit", error.message);
     }
   };
 
   return (
-    <form className="flex gap-2" action={handleAddUnit}>
+    <form ref={formRef} className="no-select flex gap-2" action={handleAddUnit}>
       <div className="group flex h-10 w-full rounded-md border dark:border-zinc-800 px-1 dark:bg-neutral-800 focus-within:outline-none md:text-sm dark:focus-within:border-zinc-700 focus-within:border-gray-300 justify-between gap-2">
         <input
           name="unit"
