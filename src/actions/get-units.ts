@@ -20,6 +20,6 @@ export async function getUnits(): Promise<IUnit[]> {
     });
     return units;
   } catch (error: any) {
-    throw new Error("Error fetching units: ", error);
+    throw new Error(`Error fetching units: ${error.message}`);
   }
 }

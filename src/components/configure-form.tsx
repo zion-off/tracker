@@ -36,7 +36,7 @@ export default function ConfigureForm() {
       });
     } catch (error: any) {
       setOptimisticUnits({ action: "delete", looseUnit: dummyUnit });
-      throw new Error("Failed to add unit", error.message);
+      throw new Error(`Failed to add unit: ${error.message}`);
     }
   };
 

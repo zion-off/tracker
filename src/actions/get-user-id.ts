@@ -11,8 +11,8 @@ export async function getUserId(email: string): Promise<string | null> {
       const userId = userDoc.id;
       return userId;
     }
-  } catch (error) {
-    throw new Error("Unable to get user's ID");
+  } catch (error: any) {
+    throw new Error(`Unable to get user's ID: ${error.message}`);
   }
   return null;
 }

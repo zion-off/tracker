@@ -62,7 +62,7 @@ export async function updateContribution(
       },
       { merge: true }
     );
-  } catch (error) {
-    throw new Error(`Error updating contributions: ${error}`);
+  } catch (error: any) {
+    throw new Error(`Error updating contributions: ${error.message}`);
   }
 }

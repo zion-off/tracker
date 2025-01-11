@@ -39,9 +39,9 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
     try {
       setCount((prev) => prev + delta);
       await updateContribution(unit.ref, action);
-    } catch (error) {
+    } catch (error: any) {
       setCount((prev) => prev - delta);
-      throw new Error(`Failed to update contribution: ${error}`);
+      throw new Error(`Failed to update contribution: ${error.message}`);
     }
   };
 
