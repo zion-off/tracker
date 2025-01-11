@@ -1,18 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
-
-import { IUnitWithCount } from "./unit";
-
-export interface optimisticContributionUpdate {
-  action: "increment" | "decrement";
-  contribution?: IUnitWithCount;
-}
-
 export interface IHomeContext {
-  contributions: IUnitWithCount[];
-  setContributions: Dispatch<SetStateAction<IUnitWithCount[]>>;
-  optimisticContributions: IUnitWithCount[];
-  setOptimisticContributions: ({
-    action,
-    contribution,
-  }: optimisticContributionUpdate) => void;
+  dots: number[];
+  updateDot: (index: number, newValue: number) => void;
+  setAllDots: (chart: number[]) => void;
+  maxChartValue: number;
+  updateMaxValue: (count: number) => void;
 }

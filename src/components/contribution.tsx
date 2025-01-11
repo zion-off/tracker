@@ -2,13 +2,17 @@
 
 import { useState, useRef } from "react";
 import { useLongPress } from "@uidotdev/usehooks";
+import { getDayOfYear } from "date-fns";
 
+import { useHomeContext } from "@/context";
 import { IUnitWithCount } from "@/interfaces";
 import { updateContribution } from "@/actions/update-contribution";
 
 export default function Contribution({ unit }: { unit: IUnitWithCount }) {
+  const { dots, updateDot, updateMaxValue } = useHomeContext();
   const [count, setCount] = useState(unit.count);
   const isLongPressRef = useRef(false);
+  const dayIndex = getDayOfYear(new Date()) - 1;
 
   const attrs = useLongPress(
     () => {
@@ -37,10 +41,14 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
     const delta = action === "increment" ? 1 : -1;
 
     try {
+      console.log(dots);
       setCount((prev) => prev + delta);
+      updateDot(dayIndex, count + delta);
       await updateContribution(unit.ref, action);
+      updateMaxValue(count + delta);
     } catch (error: any) {
       setCount((prev) => prev - delta);
+      updateDot(dayIndex, count + -1 * delta);
       throw new Error(`Failed to update contribution: ${error.message}`);
     }
   };
@@ -55,7 +63,9 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
         {unit.unit}
       </p>
       {count !== 0 && (
-        <div className="bg-slate-300 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 px-2 py-[2px] rounded-full">{count}</div>
+        <div className="bg-slate-300 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 px-2 py-[2px] rounded-full">
+          {count}
+        </div>
       )}
     </button>
   );

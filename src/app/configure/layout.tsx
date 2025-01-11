@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfigureProvider } from "../../context/configure-context";
+import { ConfigureProvider } from "@/context";
 
 export default function ConfigureLayout({
   children,

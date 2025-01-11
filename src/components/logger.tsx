@@ -1,14 +1,11 @@
-import { IUnitWithCount } from "@/interfaces";
 import Contribution from "./contribution";
+import { getUnitsCount } from "@/actions";
 
-export default function Logger({
-  contributions,
-}: {
-  contributions: IUnitWithCount[];
-}) {
+export default async function Logger() {
+  const units = await getUnitsCount();
   return (
     <div className="flex flex-wrap gap-3 my-4 w-5/6 md:max-w-screen-lg max-h-28">
-      {contributions.map((item, index) => (
+      {units.map((item, index) => (
         <Contribution key={index} unit={item} />
       ))}
     </div>
