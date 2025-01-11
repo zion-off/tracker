@@ -23,10 +23,7 @@ export default function ConfigureForm() {
     };
     addOptimisticUnit(dummyUnit);
     try {
-      const startTime = Date.now();
       const newUnit = await addUnit(formData);
-      const endTime = Date.now();
-      console.log("Time taken for addUnit:", endTime - startTime);
       setUnits((prev) => [...prev, newUnit]);
     } catch (error) {
       console.error("Failed to add unit:", error);
