@@ -4,5 +4,5 @@ export interface IUnit {
 }
 
 export interface IUnitWithCount extends IUnit {
-  count?: number;
+  count: number;
 }

@@ -3,7 +3,7 @@
 import { useLongPress } from "@uidotdev/usehooks";
 import { X } from "lucide-react";
 
-import { useConfigureContext } from "@/app/configure/context";
+import { useConfigureContext } from "@/context/configure-context";
 import { IUnit } from "@/interfaces";
 
 interface UnitProps {

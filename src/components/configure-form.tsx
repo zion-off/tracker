@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 
 import { IUnit } from "@/interfaces";
 import { addUnit } from "@/actions";
-import { useConfigureContext } from "@/app/configure/context";
+import { useConfigureContext } from "@/context/configure-context";
 
 export default function ConfigureForm() {
   const { units, setUnits, setOptimisticUnits } = useConfigureContext();
