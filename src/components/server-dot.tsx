@@ -1,8 +1,3 @@
-"use client";
-
-import { useMemo } from "react";
-
-import { useHomeContext } from "@/context";
 import { colors, hoverCardWord } from "@/utils";
 import {
   HoverCard,
@@ -10,16 +5,16 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-export default function Dot({
+export function ServerDot({
+  maxChartValue,
   contribution,
   index,
 }: {
+  maxChartValue: number;
   contribution: number;
   index: number;
 }) {
-  const { maxChartValue } = useHomeContext();
-
-  const colorClass = useMemo(() => {
+  const colorClass = () => {
     if (contribution === 0) return colors[4];
 
     const percentage = (contribution / maxChartValue) * 100;
@@ -28,13 +23,13 @@ export default function Dot({
     if (percentage <= 50) return colors[2];
     if (percentage <= 75) return colors[1];
     return colors[0];
-  }, [contribution, maxChartValue]);
+  };
 
   return (
     <HoverCard>
       <HoverCardTrigger>
         <div
-          className={`aspect-square ${colorClass} text-xs flex items-center justify-center h-[10px] rounded-sm cursor-pointer`}
+          className={`aspect-square ${colorClass()} text-xs flex items-center justify-center h-[10px] rounded-sm cursor-pointer`}
         />
       </HoverCardTrigger>
       <HoverCardContent>{hoverCardWord(contribution, index)}</HoverCardContent>
