@@ -41,7 +41,6 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
     const delta = action === "increment" ? 1 : -1;
 
     try {
-      console.log(dots);
       setCount((prev) => prev + delta);
       updateDot(dayIndex, count + delta);
       await updateContribution(unit.ref, action);
