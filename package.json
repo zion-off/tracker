@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-hover-card": "^1.1.4",
     "@uidotdev/usehooks": "^2.4.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",

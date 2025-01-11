@@ -9,7 +9,7 @@ import { IUnitWithCount } from "@/interfaces";
 import { updateContribution } from "@/actions/update-contribution";
 
 export default function Contribution({ unit }: { unit: IUnitWithCount }) {
-  const { dots, updateDot, updateMaxValue } = useHomeContext();
+  const { updateDot, updateMaxValue } = useHomeContext();
   const [count, setCount] = useState(unit.count);
   const isLongPressRef = useRef(false);
   const dayIndex = getDayOfYear(new Date()) - 1;
