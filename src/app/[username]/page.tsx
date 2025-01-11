@@ -4,12 +4,10 @@ import { getUserIdByUsername, getChartByID } from "@/actions";
 import { TableLayout } from "@/components/table-layout";
 import { ServerDot } from "@/components/server-dot";
 
-export default async function Page({
-  params,
-}: {
-  params: { username: string };
-}) {
-  const username = (await params).username;
+type Params = Promise<{ username: string }>;
+
+export default async function Page({ params }: { params: Params }) {
+  const { username } = await params;
   const userId = await getUserIdByUsername(username);
   if (!userId) {
     return notFound();
