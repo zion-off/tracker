@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useTransition } from "react";
+import { useEffect, useState, useCallback, startTransition } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 import Unit from "@/components/unit";
 import { IUnit } from "@/interfaces";
@@ -28,7 +28,6 @@ export default function UnitBox({ prefetchedUnits }: { prefetchedUnits: IUnit[] 
   }, []);
 
   const [deleting, setDeleting] = useState<string>("");
-  const [isPending, startTransition] = useTransition();
   const boxRef = useClickAway(() => {
     if (shaking) {
       toggleIsShaking();
