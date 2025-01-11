@@ -9,7 +9,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-
 export default function Dot({
   contribution,
   index,

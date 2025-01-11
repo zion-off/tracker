@@ -9,8 +9,8 @@ export default async function Page({
 }: {
   params: { username: string };
 }) {
-  const slug = await params;
-  const userId = await getUserIdByUsername(slug.username);
+  const username = (await params).username;
+  const userId = await getUserIdByUsername(username);
   if (!userId) {
     return notFound();
   }
