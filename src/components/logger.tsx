@@ -7,7 +7,7 @@ export default function Logger({
   contributions: IUnitWithCount[];
 }) {
   return (
-    <div className="flex flex-wrap gap-3 my-4 w-5/6 md:w-2/3 max-h-28">
+    <div className="flex flex-wrap gap-3 my-4 w-5/6 md:max-w-screen-md max-h-28">
       {contributions.map((item, index) => (
         <Contribution key={index} unit={item} />
       ))}

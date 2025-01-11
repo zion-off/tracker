@@ -45,6 +45,9 @@ export default {
       transformOrigin: {
         "jiggle": "50% 10%",
       },
+      gridTemplateColumns: {
+        '13': 'repeat(13, minmax(0, 1fr))',
+      }
     },
   },
   plugins: [],
