@@ -14,7 +14,6 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { username } = await params;
-  console.log(username);
   return {
     title: `${username}'s chart` || "tracker",
   };
