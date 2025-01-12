@@ -20,7 +20,7 @@ export default function Hero() {
         }}
       >
         <button
-          className="hover:underline decoration-2 underline-offset-8"
+          className="hover:underline decoration-2 underline-offset-8 text-sm"
           type="submit"
         >
           Login with GitHub

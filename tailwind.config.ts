@@ -5,12 +5,12 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    './src/utils/colors.ts'
+    "./src/utils/colors.ts",
   ],
   theme: {
     extend: {
       fontSize: {
-        xxs: '0.6rem'
+        xxs: "0.6rem",
       },
       colors: {
         background: "var(--background)",
@@ -42,14 +42,14 @@ export default {
           },
         },
         wiggle: {
-          '0%, 100%': { transform: 'rotate(0)' },
-          '50%': { transform: 'rotate(45deg)' }
-        }
+          "0%, 100%": { transform: "rotate(0)" },
+          "50%": { transform: "rotate(45deg)" },
+        },
       },
       animation: {
         interpolate: "interpolate 5s infinite",
         jiggle: "jiggle 0.25s infinite",
-        wiggle: 'wiggle 0.5s ease-in-out',
+        wiggle: "wiggle 0.5s ease-in-out",
       },
       transformOrigin: {
         jiggle: "50% 10%",

@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { getUserIdByUsername, getChartByID } from "@/actions";
 import { TableLayout } from "@/components/table-layout";
 import { ServerDot } from "@/components/server-dot";
+import SignUpLink from "@/components/ui/sign-up-button";
 
 type Params = Promise<{ username: string }>;
 
@@ -44,6 +45,7 @@ export default async function Page({ params }: { params: Params }) {
           </div>
         </TableLayout>
       </div>
+      <SignUpLink />
     </main>
   );
 }
