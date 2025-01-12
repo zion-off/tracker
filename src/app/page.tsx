@@ -6,7 +6,7 @@ import CopyLink from "@/components/ui/copy-button";
 
 export default async function Home() {
   return (
-    <main className="flex flex-col h-screen justify-center items-center">
+    <main className="flex flex-col absolute inset-0 justify-center items-center">
       <HomeProviderWrapper>
         <Chart />
         <Logger />

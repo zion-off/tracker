@@ -9,7 +9,7 @@ import HomeLink from "@/components/ui/home-button";
 export default async function Configure() {
   const units = await getUnits();
   return (
-    <main className="h-screen w-screen flex flex-col gap-5 items-center">
+    <main className="absolute inset-0 w-screen flex flex-col gap-5 items-center">
       <div className="basis-1/3 flex flex-col justify-end py-4">
         <h2 className="font-bold text-xl text-center no-select">Configure your units</h2>
       </div>

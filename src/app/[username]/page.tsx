@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: Params }) {
   const max = Math.max(...chart);
 
   return (
-    <main className="h-screen flex flex-col justify-center items-center">
+    <main className=" absolute inset-0 flex flex-col justify-center items-center">
       <div className="w-5/6 md:max-w-[900px] my-4 border border-slate-200 dark:border-zinc-800 p-5 rounded-md overflow-x-scroll">
         <TableLayout>
           <div className="h-full w-full grid grid-rows-7 grid-flow-col">

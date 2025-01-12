@@ -1,8 +1,9 @@
 import { signIn } from "@/auth";
+
 export default function Hero() {
   const delays = [0, 0.4, 0.8, 1.2, 1.4];
   return (
-    <main className="h-screen flex flex-col justify-center w-screen items-center gap-5">
+    <main className="flex flex-col justify-center items-center gap-5 absolute inset-0">
       <div className="flex gap-3">
         {delays.map((delay, index) => (
           <div
