@@ -1,19 +1,30 @@
 "use client";
 
-import { useRef, startTransition } from "react";
+import { useRef, useState, startTransition } from "react";
 import { v4 } from "uuid";
 import { Plus } from "lucide-react";
 
+import { configureUnitSchema } from "@/utils";
 import { IUnit } from "@/interfaces";
 import { addUnit } from "@/actions";
 import { useConfigureContext } from "@/context/configure-context";
 
 export default function ConfigureForm() {
+  const [isShaking, setIsShaking] = useState(false);
   const { units, setUnits, setOptimisticUnits } = useConfigureContext();
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleAddUnit = async (data: FormData) => {
     const unitName = data.get("unit") as string;
+    try {
+      configureUnitSchema.parse(unitName);
+    } catch (error) {
+      setIsShaking(true);
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 300);
+      return;
+    }
     formRef.current?.reset();
     const dummyUnit: IUnit = {
       unit: unitName,
@@ -48,7 +59,7 @@ export default function ConfigureForm() {
           placeholder="Read 1 chapter..."
           className="focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-0 w-full placeholder:text-gray-400 dark:bg-neutral-800 px-2 py-2 text-sm"
         />
-        <button className="h-full">
+        <button className={`h-full ${isShaking && `animate-shake`}`}>
           <Plus className="bg-neutral-100 hover:bg-neutral-100/50 dark:bg-neutral-900 hover:dark:bg-neutral-900/50 border dark:border-zinc-800 h-4/5 rounded-md w-8 stroke-neutral-500 dark:stroke-neutral-400 p-1" />
         </button>
       </div>

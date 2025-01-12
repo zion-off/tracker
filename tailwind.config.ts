@@ -45,11 +45,25 @@ export default {
           "0%, 100%": { transform: "rotate(0)" },
           "50%": { transform: "rotate(45deg)" },
         },
+        shake: {
+          "0%": { transform: "translateX(0)" },
+          "10%": { transform: "translateX(-2px)" },
+          "20%": { transform: "translateX(0)" },
+          "30%": { transform: "translateX(2px)" },
+          "40%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(-2px)" },
+          "60%": { transform: "translateX(0)" },
+          "70%": { transform: "translateX(2px)" },
+          "80%": { transform: "translateX(0)" },
+          "90%": { transform: "translateX(-2px)" },
+          "100%": { transform: "translateX(0)" },
+        }
       },
       animation: {
         interpolate: "interpolate 5s infinite",
         jiggle: "jiggle 0.25s infinite",
         wiggle: "wiggle 0.5s ease-in-out",
+        shake: "shake 0.3s 1 ease-out",
       },
       transformOrigin: {
         jiggle: "50% 10%",
