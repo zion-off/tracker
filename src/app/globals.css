@@ -11,6 +11,8 @@
   --gh-green-four: rgb(155, 233, 168);
   --gh-green-five: rgb(235, 237, 240);
   --gh-outline: rgba(27, 31, 35, 0.06);
+  --destructive: 3 71% 51%;
+  --destructive-foreground: 0 0% 98%;
 }
 
 @media (prefers-color-scheme: dark) {

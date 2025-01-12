@@ -27,6 +27,7 @@ export default function ConfigureForm() {
       }, 300);
       toast({
         title: "Try again!",
+        variant: "destructive",
         description: "Unit name must be between 1 and 120 characters",
       })
       return;

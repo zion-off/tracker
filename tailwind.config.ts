@@ -21,6 +21,10 @@ export default {
         "gh-green-4": "var(--gh-green-four)",
         "gh-green-5": "var(--gh-green-five)",
         "gh-outline": "var(--gh-outline)",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
       },
       keyframes: {
         interpolate: {
