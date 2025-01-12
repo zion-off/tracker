@@ -4,6 +4,7 @@ import { UnitSuspense } from "@/components/unit-suspense";
 import { getUnits } from "@/actions";
 import UnitBox from "@/components/unit-box";
 import ConfigureForm from "@/components/configure-form";
+import HomeLink from "@/components/ui/home-button";
 
 export default async function Configure() {
   const units = await getUnits();
@@ -20,6 +21,7 @@ export default async function Configure() {
           <UnitBox prefetchedUnits={units} />
         </Suspense>
       </div>
+      <HomeLink />
     </main>
   );
 }

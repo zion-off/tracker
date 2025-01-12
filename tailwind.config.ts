@@ -41,10 +41,15 @@ export default {
             "animation-timing-function": "ease-out",
           },
         },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(0)' },
+          '50%': { transform: 'rotate(45deg)' }
+        }
       },
       animation: {
         interpolate: "interpolate 5s infinite",
         jiggle: "jiggle 0.25s infinite",
+        wiggle: 'wiggle 0.5s ease-in-out',
       },
       transformOrigin: {
         jiggle: "50% 10%",
