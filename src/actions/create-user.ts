@@ -1,4 +1,7 @@
+"use server";
+
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
 import { db } from "@/firebase";
 
 export async function createUser(email: string) {
@@ -10,6 +13,6 @@ export async function createUser(email: string) {
     });
     return true;
   } catch (error: any) {
-    throw new Error(`Unable to create user: ${error.message}`)
+    throw new Error(`Unable to create user: ${error.message}`);
   }
 }

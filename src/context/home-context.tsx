@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, createContext, useContext, ReactNode } from "react";
-
 import { IHomeContext, ChartWithColorsType } from "@/interfaces";
 import { getColorIndex } from "@/utils/get-color-index";
 
