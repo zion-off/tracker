@@ -2,21 +2,27 @@
 
 import { useEffect } from "react";
 
-import { useHomeContext } from "@/context";
 import Dot from "./dot";
+import { useHomeContext } from "@/context";
+import { ChartWithColorsType } from "@/interfaces";
 
-export default function Dots({ chart }: { chart: number[] }) {
+export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
   const { dots, setAllDots, updateMaxValue } = useHomeContext();
 
+  const maxValue = chart.reduce(
+    (max, item) => Math.max(max, item[0]),
+    -Infinity
+  );
+
   useEffect(() => {
+    updateMaxValue(maxValue);
     setAllDots(chart);
-    updateMaxValue(Math.max(...chart));
   }, []);
 
   return (
     <>
       {dots.map((_, index) => (
-        <Dot key={index} contribution={dots[index]} index={index} />
+        <Dot key={index} dot={dots[index]} index={index} />
       ))}
     </>
   );

@@ -2,21 +2,24 @@
 
 import { useState, createContext, useContext, ReactNode } from "react";
 
-import { IHomeContext } from "@/interfaces";
+import { IHomeContext, ChartWithColorsType } from "@/interfaces";
+import { getColorIndex } from "@/utils/get-color-index";
 
 const HomeContext = createContext<IHomeContext | null>(null);
 
 export function HomeProvider({ children }: { children: ReactNode }) {
-  const [dots, setDots] = useState<number[]>(new Array(366).fill(0));
+  const [dots, setDots] = useState<ChartWithColorsType[]>(
+    new Array(366).fill([0, "gh-green-five"])
+  );
   const updateDot = (index: number, newValue: number) => {
     setDots((prevDots) => {
       const newDots = [...prevDots];
-      newDots[index] = newValue;
+      newDots[index] = [newValue, getColorIndex(newValue, maxChartValue)];
       return newDots;
     });
   };
-  const setAllDots = (chart: number[]) => {
-    setDots(chart);
+  const setAllDots = (chartWithColors: ChartWithColorsType[]) => {
+    setDots(chartWithColors);
   };
   const [maxChartValue, setMaxChartValue] = useState(0);
   const updateMaxValue = (count: number) => {
