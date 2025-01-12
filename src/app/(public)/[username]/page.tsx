@@ -1,10 +1,23 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { getUserIdByUsername, getChartByID } from "@/actions";
 import { TableLayout } from "@/components/table-layout";
 import { ServerDot } from "@/components/server-dot";
 
 type Params = Promise<{ username: string }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { username } = await params;
+  console.log(username);
+  return {
+    title: `${username}'s chart` || "tracker",
+  };
+}
 
 export default async function Page({ params }: { params: Params }) {
   const { username } = await params;
