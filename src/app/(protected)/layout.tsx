@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "tracker",
 };
 
+import { Toaster } from "@/components/ui/toaster";
 import AuthCheck from "@/auth/auth-provider";
 
 export default async function RootLayout({
@@ -11,5 +12,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <AuthCheck>{children}</AuthCheck>;
+  return (
+    <AuthCheck>
+      {children}
+      <Toaster />
+    </AuthCheck>
+  );
 }

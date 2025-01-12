@@ -4,12 +4,14 @@ import { useRef, useState, startTransition } from "react";
 import { v4 } from "uuid";
 import { Plus } from "lucide-react";
 
+import { useToast } from "@/hooks/use-toast"
 import { configureUnitSchema } from "@/utils";
 import { IUnit } from "@/interfaces";
 import { addUnit } from "@/actions";
 import { useConfigureContext } from "@/context/configure-context";
 
 export default function ConfigureForm() {
+  const { toast } = useToast()
   const [isShaking, setIsShaking] = useState(false);
   const { units, setUnits, setOptimisticUnits } = useConfigureContext();
   const formRef = useRef<HTMLFormElement>(null);
@@ -23,6 +25,10 @@ export default function ConfigureForm() {
       setTimeout(() => {
         setIsShaking(false);
       }, 300);
+      toast({
+        title: "Try again!",
+        description: "Unit name must be between 1 and 120 characters",
+      })
       return;
     }
     formRef.current?.reset();
