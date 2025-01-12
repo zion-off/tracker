@@ -7,7 +7,7 @@ import { IHomeContext } from "@/interfaces";
 const HomeContext = createContext<IHomeContext | null>(null);
 
 export function HomeProvider({ children }: { children: ReactNode }) {
-  const [dots, setDots] = useState<number[]>([]);
+  const [dots, setDots] = useState<number[]>(new Array(366).fill(0));
   const updateDot = (index: number, newValue: number) => {
     setDots((prevDots) => {
       const newDots = [...prevDots];
@@ -43,10 +43,6 @@ export function useHomeContext() {
   return context;
 }
 
-export function HomeProviderWrapper({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function HomeProviderWrapper({ children }: { children: ReactNode }) {
   return <HomeProvider>{children}</HomeProvider>;
 }
