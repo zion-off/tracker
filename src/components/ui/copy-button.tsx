@@ -7,7 +7,9 @@ export default function CopyLink() {
   async function getLink() {
     const username = await getUsernameById();
     const link = `https://tracker.zzzzion.com/${username}`;
-    await navigator.clipboard.writeText(link);
+    setTimeout(() => {
+      navigator.clipboard.writeText(link)
+    }, 0)
   }
 
   return (
