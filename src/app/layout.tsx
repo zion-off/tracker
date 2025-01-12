@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import AuthCheck from "@/auth/auth-provider";
 import "./globals.css";
 
 const inter = Inter({ weight: ["400", "700"], subsets: ["latin"] });
@@ -18,7 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`text-zinc-800 dark:text-zinc-100 ${inter.className}`}>
-        <AuthCheck>{children}</AuthCheck>
+        {children}
       </body>
     </html>
   );
