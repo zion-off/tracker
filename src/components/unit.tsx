@@ -39,7 +39,7 @@ export default function Unit({
             : `bg-neutral-100 dark:bg-neutral-900`
         } ${!shaking && `hover:bg-neutral-50  hover:dark:bg-neutral-800`}`}
       >
-        <div className="text-neutral-500 dark:text-neutral-400 no-select">
+        <div className="text-neutral-600 dark:text-neutral-400 no-select">
           {unit.unit}
         </div>
       </div>

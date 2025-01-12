@@ -1,3 +1,7 @@
+import { Inter } from "next/font/google";
+
+const inter = Inter({ weight: ["400", "700"], subsets: ["latin"] });
+
 export const TableLayout = ({ children }: { children: React.ReactNode }) => {
   const months = [
     "Jan",
@@ -20,7 +24,7 @@ export const TableLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Header row with months */}
       <div className="p-1"></div>
       {months.map((month, index) => (
-        <div key={index} className="p-1">
+        <div key={index} className={`p-1 ${inter.className} text-neutral-600 dark:text-slate-300`}>
           {month}
         </div>
       ))}
@@ -28,7 +32,7 @@ export const TableLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Days column and component space */}
       <div className="col-span-1 row-span-7 flex flex-col justify-around text-right">
         {days.map((day, index) => (
-          <div key={index} className="p-2">
+          <div key={index} className={`p-2 ${inter.className} text-neutral-600 dark:text-slate-300`}>
             {day}
           </div>
         ))}
