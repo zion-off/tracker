@@ -5,14 +5,12 @@ import Dot from "./dot";
 import HoverBox from "./ui/hover-box";
 import { useHomeContext } from "@/context";
 import { ChartWithColorsType } from "@/interfaces";
-import { getDayFromIndex } from "@/utils";
 import { hoverCardWord } from "@/utils";
 
 export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
   const { dots, setAllDots, updateMaxValue } = useHomeContext();
   const [hoveredDotIndex, setHoveredDotIndex] = useState<number | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const year = new Date().getFullYear();
 
   const maxValue = chart.reduce(
     (max, item) => Math.max(max, item[0]),
