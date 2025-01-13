@@ -1,4 +1,4 @@
-import Dots from "./dots";
+import { Dots } from "./dots";
 import { auth } from "@/auth";
 import { TableLayout } from "./table-layout";
 import { getChartData } from "@/actions/get-chart";

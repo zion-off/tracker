@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, MouseEvent, useCallback, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  MouseEvent,
+  useCallback,
+  useMemo,
+  memo
+} from "react";
 
 import Dot from "./dot";
 import HoverBox from "./ui/hover-box";
@@ -8,7 +15,7 @@ import { useHomeContext } from "@/context";
 import { ChartWithColorsType } from "@/interfaces";
 import { hoverCardWord } from "@/utils";
 
-export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
+export const Dots = memo(({ chart }: { chart: ChartWithColorsType[] }) => {
   const { dots, setAllDots, updateMaxValue } = useHomeContext();
   const [hoveredDotIndex, setHoveredDotIndex] = useState<number | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
@@ -84,11 +91,7 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
   const memoizedHoverBox = useMemo(() => {
     if (hoveredDotIndex !== null) {
       return (
-        <HoverBox
-          x={hoverPosition.x}
-          y={hoverPosition.y}
-          text={hoverText}
-        />
+        <HoverBox x={hoverPosition.x} y={hoverPosition.y} text={hoverText} />
       );
     }
     return null;
@@ -110,4 +113,4 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
       {memoizedHoverBox}
     </>
   );
-}
+});
