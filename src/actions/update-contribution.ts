@@ -56,7 +56,8 @@ export async function updateContribution(
     counts[dayIndex] = (counts[dayIndex] || 0) + incrementValue;
 
     revalidateTag("unit-count");
-    
+    revalidateTag("chart");
+
     await setDoc(
       chartRef,
       {
