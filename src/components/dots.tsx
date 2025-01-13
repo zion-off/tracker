@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, MouseEvent } from "react";
+import React, { useEffect, useState, MouseEvent, useCallback, useMemo } from "react";
+
 import Dot from "./dot";
 import HoverBox from "./ui/hover-box";
 import { useHomeContext } from "@/context";
@@ -22,45 +23,76 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
     setAllDots(chart);
   }, []);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    const container = e.currentTarget;
-    const rect = container.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const container = e.currentTarget;
+      if (!container) {
+        return;
+      }
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-    const DOT_SIZE = 10;
-    const COLUMNS = 53;
-    const ROWS = 7;
-    const GAP = 4.31;
+      const DOT_SIZE = 10;
+      const COLUMNS = 53;
+      const ROWS = 7;
+      const GAP = 4.31;
 
-    const col = Math.floor(x / (DOT_SIZE + GAP));
-    const row = Math.floor(y / (DOT_SIZE + GAP));
+      const col = Math.floor(x / (DOT_SIZE + GAP));
+      const row = Math.floor(y / (DOT_SIZE + GAP));
 
-    let index: number | null = col * ROWS + row;
+      let index: number | null = col * ROWS + row;
 
-    if (
-      col < 0 ||
-      col >= COLUMNS ||
-      row < 0 ||
-      row >= ROWS ||
-      index >= dots.length ||
-      (col === COLUMNS - 1 && row >= 2)
-    ) {
-      setHoveredDotIndex(null);
-      return;
+      if (
+        col < 0 ||
+        col >= COLUMNS ||
+        row < 0 ||
+        row >= ROWS ||
+        index >= dots.length ||
+        (col === COLUMNS - 1 && row >= 2)
+      ) {
+        setHoveredDotIndex(null);
+        return;
+      }
+
+      setHoveredDotIndex(index);
+      setHoverPosition({ x: e.clientX, y: e.clientY });
+    },
+    [dots]
+  );
+
+  const memoizedDots = useMemo(
+    () => dots.map((dot, index) => <Dot key={index} dot={dot[1]} />),
+    [dots]
+  );
+
+  const hoverText = useMemo(() => {
+    if (hoveredDotIndex !== null) {
+      return hoverCardWord(dots[hoveredDotIndex][0], hoveredDotIndex);
     }
+    return "";
+  }, [hoveredDotIndex]);
 
-    setHoveredDotIndex(index);
-    setHoverPosition({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setHoveredDotIndex(null);
-  };
+  }, []);
 
-  const updateMousePosition = (e: MouseEvent) => {
+  const updateMousePosition = useCallback((e: MouseEvent) => {
     setHoverPosition({ x: e.clientX, y: e.clientY });
-  };
+  }, []);
+
+  const memoizedHoverBox = useMemo(() => {
+    if (hoveredDotIndex !== null) {
+      return (
+        <HoverBox
+          x={hoverPosition.x}
+          y={hoverPosition.y}
+          text={hoverText}
+        />
+      );
+    }
+    return null;
+  }, [hoveredDotIndex, hoverPosition]);
 
   return (
     <>
@@ -72,18 +104,10 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
         onMouseLeave={handleMouseLeave}
         className="h-full w-full grid grid-rows-7 grid-flow-col relative"
       >
-        {dots.map((_, index) => (
-          <Dot key={index} dot={dots[index]} />
-        ))}
+        {memoizedDots}
       </div>
 
-      {hoveredDotIndex !== null && (
-        <HoverBox
-          x={hoverPosition.x}
-          y={hoverPosition.y}
-          text={hoverCardWord(dots[hoveredDotIndex][0], hoveredDotIndex)}
-        />
-      )}
+      {memoizedHoverBox}
     </>
   );
 }
