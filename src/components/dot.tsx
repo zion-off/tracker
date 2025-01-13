@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { hoverCardWord } from "@/utils";
 import {
   HoverCard,
@@ -11,7 +11,7 @@ import { ChartWithColorsType } from "@/interfaces";
 
 const Dot = React.memo(
   ({ dot, index }: { dot: ChartWithColorsType; index: number }) => {
-    return (
+    return useMemo(() => (
       <HoverCard>
         <HoverCardTrigger>
           <div
@@ -20,8 +20,9 @@ const Dot = React.memo(
         </HoverCardTrigger>
         <HoverCardContent>{hoverCardWord(dot[0], index)}</HoverCardContent>
       </HoverCard>
-    );
+    ), [dot, index]);
   }
-);
+)
+
 
 export default Dot;

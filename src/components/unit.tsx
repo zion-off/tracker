@@ -1,5 +1,6 @@
 "use client";
 
+import React, { memo } from "react";
 import { useLongPress } from "@uidotdev/usehooks";
 import { X } from "lucide-react";
 
@@ -12,7 +13,7 @@ interface UnitProps {
   handleDelete: (unit: IUnit) => void;
 }
 
-export default function Unit({
+const Unit = memo(function Unit({
   unit,
   deleting,
   handleDelete,
@@ -52,4 +53,6 @@ export default function Unit({
       )}
     </div>
   );
-}
+});
+
+export default Unit;
