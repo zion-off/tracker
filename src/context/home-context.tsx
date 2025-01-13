@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, createContext, useContext, ReactNode } from "react";
+import { useState, createContext, useContext, ReactNode, memo } from "react";
 import { IHomeContext, ChartWithColorsType } from "@/interfaces";
 import { getColorIndex } from "@/utils/get-color-index";
 
 const HomeContext = createContext<IHomeContext | null>(null);
 
-export function HomeProvider({ children }: { children: ReactNode }) {
+const MemoizedHomeProvider = memo(function HomeProvider({ children }: { children: ReactNode }) {
   const [dots, setDots] = useState<ChartWithColorsType[]>(
     new Array(366).fill([0, "gh-green-five"])
   );
@@ -35,7 +35,7 @@ export function HomeProvider({ children }: { children: ReactNode }) {
   };
 
   return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;
-}
+});
 
 export function useHomeContext() {
   const context = useContext(HomeContext);
@@ -46,5 +46,5 @@ export function useHomeContext() {
 }
 
 export function HomeProviderWrapper({ children }: { children: ReactNode }) {
-  return <HomeProvider>{children}</HomeProvider>;
+  return <MemoizedHomeProvider>{children}</MemoizedHomeProvider>;
 }
