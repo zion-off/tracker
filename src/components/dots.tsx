@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, MouseEvent } from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import Dot from "./dot";
 import HoverBox from "./ui/hover-box";
 import { useHomeContext } from "@/context";
@@ -65,7 +65,6 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
   return (
     <>
       <div
-        id="parent"
         onMouseMove={(e) => {
           handleMouseMove(e);
           updateMousePosition(e);
@@ -74,7 +73,7 @@ export default function Dots({ chart }: { chart: ChartWithColorsType[] }) {
         className="h-full w-full grid grid-rows-7 grid-flow-col relative"
       >
         {dots.map((_, index) => (
-          <Dot key={index} dot={dots[index]} index={index} />
+          <Dot key={index} dot={dots[index]} />
         ))}
       </div>
 
