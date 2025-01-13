@@ -1,11 +1,10 @@
 import React, { memo } from "react";
-import { ChartWithColorsType } from "@/interfaces";
 
 const Dot = memo(
-  ({ dot }: { dot: ChartWithColorsType}) => {
+  ({ dot }: { dot: string}) => {
     return (
       <div
-        className={`aspect-square ${dot[1]} text-xs h-[10px] rounded-sm cursor-pointer`}
+        className={`aspect-square ${dot} text-xs h-[10px] rounded-sm cursor-pointer`}
       />
     );
   }
