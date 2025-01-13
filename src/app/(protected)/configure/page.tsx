@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Instrument_Serif } from "next/font/google";
 
+import { auth } from "@/auth";
 import { UnitSuspense } from "@/components/unit-suspense";
 import { getUnits } from "@/actions";
 import UnitBox from "@/components/unit-box";
@@ -13,7 +14,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export default async function Configure() {
-  const units = await getUnits();
+  const session = await auth();
+  const id = session?.user?.id as string;
+  const units = await getUnits(id);
   return (
     <main className="absolute inset-0 w-screen flex flex-col gap-2 items-center">
       <div className="basis-1/3 flex flex-col justify-end py-4">

@@ -1,5 +1,3 @@
-"use client";
-
 import { ConfigureProvider } from "@/context";
 
 export default function ConfigureLayout({

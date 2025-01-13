@@ -1,5 +1,7 @@
 "use server";
+
 import { collection, addDoc, doc, serverTimestamp } from "firebase/firestore";
+import { revalidateTag } from "next/cache";
 
 import { IUnit } from "@/interfaces";
 import { db } from "@/firebase";
@@ -17,6 +19,8 @@ export async function addUnit(data: FormData): Promise<IUnit> {
       unit: unit,
       created_at: serverTimestamp(),
     });
+
+    revalidateTag("units");
 
     return {
       unit: unit,
