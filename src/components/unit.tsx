@@ -31,6 +31,7 @@ const Unit = memo(function Unit({
   return (
     <div
       {...attrs}
+      onContextMenu={(e) => e.preventDefault()}
       className={`relative origin-jiggle ${shaking && `animate-jiggle`}`}
     >
       <div

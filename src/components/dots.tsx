@@ -105,6 +105,7 @@ export const Dots = memo(({ chart }: { chart: ChartWithColorsType[] }) => {
           updateMousePosition(e);
         }}
         onMouseLeave={handleMouseLeave}
+        onContextMenu={(e) => e.preventDefault()}
         className="h-full w-full grid grid-rows-7 grid-flow-col relative"
       >
         {memoizedDots}
