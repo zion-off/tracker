@@ -56,7 +56,6 @@ export async function updateContribution(
     counts[dayIndex] = (counts[dayIndex] || 0) + incrementValue;
 
     revalidateTag("unit-count");
-    revalidateTag("chart");
 
     await setDoc(
       chartRef,
@@ -66,6 +65,8 @@ export async function updateContribution(
       },
       { merge: true }
     );
+    
+    revalidateTag("chart");
   } catch (error: any) {
     throw new Error(`Error updating contributions: ${error.message}`);
   }
