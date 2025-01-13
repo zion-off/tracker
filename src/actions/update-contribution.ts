@@ -8,6 +8,7 @@ import {
   increment,
   getDoc,
 } from "firebase/firestore";
+import { revalidateTag } from "next/cache";
 import { format, getDayOfYear } from "date-fns";
 
 import { auth } from "@/auth";
@@ -54,6 +55,8 @@ export async function updateContribution(
 
     counts[dayIndex] = (counts[dayIndex] || 0) + incrementValue;
 
+    revalidateTag("unit-count");
+    
     await setDoc(
       chartRef,
       {
