@@ -4,7 +4,7 @@ import { Instrument_Serif } from "next/font/google";
 import { auth } from "@/auth";
 import { UnitSuspense } from "@/components/unit-suspense";
 import { getUnits } from "@/actions";
-import UnitBox from "@/components/unit-box";
+import { UnitBox } from "@/components/unit-box";
 import ConfigureForm from "@/components/configure-form";
 import HomeLink from "@/components/ui/home-button";
 
