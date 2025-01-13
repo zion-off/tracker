@@ -8,7 +8,7 @@ const Dot = React.memo(
     return useMemo(
       () => (
         <div
-          className={`aspect-square ${dot[1]} text-xs flex items-center justify-center h-[10px] rounded-sm cursor-pointer`}
+          className={`aspect-square ${dot[1]} text-xs  h-[10px] rounded-sm cursor-pointer`}
         />
       ),
       [dot, index]
