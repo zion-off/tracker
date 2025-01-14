@@ -7,6 +7,7 @@ import { getUnits } from "@/actions";
 import { UnitBox } from "@/components/unit-box";
 import ConfigureForm from "@/components/configure-form";
 import HomeLink from "@/components/ui/home-button";
+import LogoutButton from "@/components/ui/logout-button";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -35,6 +36,7 @@ export default async function Configure() {
         </Suspense>
       </div>
       <HomeLink />
+      <LogoutButton />
     </main>
   );
 }
