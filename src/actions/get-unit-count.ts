@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache';
 import { format } from 'date-fns';
 
-import { db } from '@/firebase-admin';
+import { db } from '@/firebase';
 import { IUnitWithCount } from '@/interfaces';
 
 export const getUnitsCount = unstable_cache(

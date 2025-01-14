@@ -1,7 +1,7 @@
 "use server";
 
 import { FieldValue } from "firebase-admin/firestore";
-import { db } from "@/firebase-admin";
+import { db } from "@/firebase";
 
 export async function createUser(email: string) {
   try {

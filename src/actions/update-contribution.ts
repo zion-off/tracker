@@ -5,7 +5,7 @@ import { format, getDayOfYear } from 'date-fns';
 import { FieldValue } from 'firebase-admin/firestore';
 
 import { auth } from '@/auth';
-import { db } from '@/firebase-admin';
+import { db } from '@/firebase';
 
 export async function updateContribution(
   path: string,
