@@ -1,18 +1,18 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+'use server'
 
-import { db } from "@/firebase";
+import { db } from '@/firebase-admin';
 
 export async function getUserIdByUsername(username: string): Promise<string | null> {
   try {
-    const q = query(collection(db, "users"), where("username", "==", username));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const userDoc = querySnapshot.docs[0];
-      const userId = userDoc.id;
-      return userId;
+    const usersRef = db.collection('users');
+    const snapshot = await usersRef.where('username', '==', username).get();
+    if (!snapshot.empty) {
+      const userDoc = snapshot.docs[0];
+      return userDoc.id;
     }
   } catch (error: any) {
     throw new Error(`Unable to get user's ID: ${error.message}`);
   }
   return null;
 }
+

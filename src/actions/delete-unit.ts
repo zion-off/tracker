@@ -1,15 +1,16 @@
-"use server";
+'use server'
 
-import { revalidateTag } from "next/cache";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "@/firebase";
+import { revalidateTag } from 'next/cache';
+
+import { db } from '@/firebase-admin';
 
 export async function deleteUnit(path: string): Promise<void> {
   try {
-    const documentRef = doc(db, path);
-    await deleteDoc(documentRef);
-    revalidateTag("units");
+    const documentRef = db.doc(path);
+    await documentRef.delete();
+    revalidateTag('units');
   } catch (error: any) {
     throw new Error(`Unable to delete unit ${error.message}`);
   }
 }
+

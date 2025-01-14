@@ -1,18 +1,16 @@
-"use server";
+'use server'
 
-import { unstable_cache } from "next/cache";
-import { query, where, doc, getDocs, collection } from "firebase/firestore";
+import { unstable_cache } from 'next/cache';
 
-import { db } from "@/firebase";
-import { IUnit } from "@/interfaces";
+import { db } from '@/firebase-admin';
+import { IUnit } from '@/interfaces';
 
 export const getUnits = unstable_cache(
   async (id: string): Promise<IUnit[]> => {
-    const user = doc(db, "users", id);
-    const req = query(collection(db, "units"), where("owner", "==", user));
+    const unitsRef = db.collection('units');
     try {
-      const res = await getDocs(req);
-      const units: IUnit[] = res.docs.map((doc) => {
+      const snapshot = await unitsRef.where('owner', '==', db.doc(`users/${id}`)).get();
+      const units: IUnit[] = snapshot.docs.map((doc) => {
         const unitData = doc.data();
         return {
           unit: unitData.unit,
@@ -25,5 +23,6 @@ export const getUnits = unstable_cache(
     }
   },
   undefined,
-  { revalidate: false, tags: ["units"] }
+  { revalidate: false, tags: ['units'] }
 );
+

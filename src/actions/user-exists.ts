@@ -1,13 +1,15 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+'use server'
 
-import { db } from "@/firebase";
+import { db } from '@/firebase-admin';
 
 export async function userExists(email: string): Promise<boolean> {
   try {
-    const q = query(collection(db, "users"), where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-    return !querySnapshot.empty;
+    const usersRef = db.collection('users');
+    const snapshot = await usersRef.where('email', '==', email).get();
+    return !snapshot.empty;
   } catch (error) {
+    console.error('Error checking if user exists:', error);
     return false;
   }
 }
+
