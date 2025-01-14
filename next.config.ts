@@ -1,11 +1,5 @@
 /** @type {import('next').NextConfig} */
-
-const result = require("dotenv").config();
-
-const nextConfig = {
-  reactStrictMode: true,
-  env: result.parsed,
-};
+const nextConfig = {};
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
