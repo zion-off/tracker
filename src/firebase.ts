@@ -10,7 +10,6 @@ if (!getApps().length) {
         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
       }),
     });
-    console.log(process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"));
   } catch (error) {
     console.error("Error initializing Firebase Admin SDK:", error);
     throw error;
