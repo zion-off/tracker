@@ -21,6 +21,7 @@ export async function addUnit(data: FormData): Promise<IUnit> {
     });
 
     revalidateTag('units');
+    revalidateTag('unit-count');
 
     return {
       unit: unit,
