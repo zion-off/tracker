@@ -1,10 +1,11 @@
 import NextAuth, { User } from "next-auth";
 import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google"
 
 import { userExists, createUser, getUserId } from "@/actions";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [GitHub],
+  providers: [GitHub, Google],
   callbacks: {
     async signIn({ user }: { user: User }) {
       const existingUser = await userExists(user.email as string);
