@@ -4,7 +4,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { revalidateTag } from 'next/cache';
 
 import { IUnit } from '@/interfaces';
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 import { auth } from '@/auth';
 
 export async function addUnit(data: FormData): Promise<IUnit> {

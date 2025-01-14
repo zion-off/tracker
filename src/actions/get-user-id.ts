@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 
 export async function getUserId(email: string): Promise<string | null> {
   try {

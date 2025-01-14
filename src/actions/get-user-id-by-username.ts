@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 
 export async function getUserIdByUsername(username: string): Promise<string | null> {
   try {

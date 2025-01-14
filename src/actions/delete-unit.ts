@@ -2,7 +2,7 @@
 
 import { revalidateTag } from 'next/cache';
 
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 
 export async function deleteUnit(path: string): Promise<void> {
   try {

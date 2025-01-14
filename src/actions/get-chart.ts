@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache';
 
-import { db } from '@/firebase';
+import { db } from '@/lib/firebase';
 
 export const getChartData = unstable_cache(
   async (id: string, year: string) => {
