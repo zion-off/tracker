@@ -6,6 +6,7 @@ import {
   createContext,
   useContext,
   ReactNode,
+  useMemo,
 } from "react";
 
 import { IUnit, OptimisticAction, IConfigureContext } from "@/interfaces";
@@ -40,14 +41,17 @@ export function ConfigureProvider({ children }: { children: ReactNode }) {
     setIsShaking((prev) => !prev);
   };
 
-  const value = {
-    units,
-    setUnits,
-    optimisticUnits,
-    setOptimisticUnits,
-    shaking,
-    toggleIsShaking,
-  };
+  const value = useMemo(
+    () => ({
+      units,
+      setUnits,
+      optimisticUnits,
+      setOptimisticUnits,
+      shaking,
+      toggleIsShaking,
+    }),
+    [units, optimisticUnits, shaking]
+  );
 
   return (
     <ConfigureContext.Provider value={value}>
