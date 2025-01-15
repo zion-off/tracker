@@ -3,12 +3,13 @@
 import { useState, createContext, useContext, ReactNode, useMemo } from "react";
 import { IHomeContext, ChartWithColorsType } from "@/interfaces";
 import { getColorIndex } from "@/utils/get-color-index";
+import { getDaysInYear } from "@/utils";
 
 const HomeContext = createContext<IHomeContext | null>(null);
 
 export function HomeProviderWrapper({ children }: { children: ReactNode }) {
   const [dots, setDots] = useState<ChartWithColorsType[]>(
-    new Array(366).fill([0, "gh-green-five"])
+    new Array(getDaysInYear()).fill([0, "gh-green-five"])
   );
 
   const [maxChartValue, setMaxChartValue] = useState(0);

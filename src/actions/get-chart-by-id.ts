@@ -1,6 +1,7 @@
-'use server'
+"use server";
 
-import { db } from '@/lib/firebase';
+import { db } from "@/lib/firebase";
+import { getDaysInYear } from "@/utils";
 
 export async function getChartByID(
   userId: string,
@@ -11,7 +12,7 @@ export async function getChartByID(
   try {
     const chartDoc = await chartRef.get();
     if (!chartDoc.exists) {
-      return new Array(366).fill(0);
+      return new Array(getDaysInYear(year)).fill(0);
     }
 
     return chartDoc.data()?.counts;
@@ -19,4 +20,3 @@ export async function getChartByID(
     throw new Error(`Failed to fetch chart data: ${error.message}`);
   }
 }
-

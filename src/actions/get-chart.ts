@@ -1,17 +1,18 @@
-'use server'
+"use server";
 
-import { unstable_cache } from 'next/cache';
+import { unstable_cache } from "next/cache";
 
-import { db } from '@/lib/firebase';
+import { db } from "@/lib/firebase";
+import { getDaysInYear } from "@/utils";
 
 export const getChartData = unstable_cache(
   async (id: string, year: string) => {
     const chartRef = db.doc(`charts/${id}/years/${year}`);
-
+    const daysInYear = getDaysInYear(year);
     try {
       const chartDoc = await chartRef.get();
       if (!chartDoc.exists) {
-        return new Array(366).fill(0);
+        return new Array(daysInYear).fill(0);
       }
 
       return chartDoc.data()?.counts;
@@ -20,6 +21,5 @@ export const getChartData = unstable_cache(
     }
   },
   undefined,
-  { revalidate: false, tags: ['chart'] }
+  { revalidate: false, tags: ["chart"] }
 );
-
