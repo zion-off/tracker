@@ -4,6 +4,7 @@ import { TableLayout } from "./table-layout";
 import { getChartData } from "@/actions/get-chart";
 import { ChartWithColorsType } from "@/interfaces";
 import { getColorIndex } from "@/utils/get-color-index";
+import { Spectrum } from "./ui/spectrum";
 
 export default async function Chart() {
   const session = await auth();

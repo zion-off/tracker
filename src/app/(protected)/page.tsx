@@ -6,6 +6,7 @@ import Chart from "@/components/chart";
 import { UnitSuspense } from "@/components/unit-suspense";
 import ChartFallback from "@/components/chart-fallback";
 import ConfigureLink from "@/components/ui/configure-button";
+import { Spectrum } from "@/components/ui/spectrum";
 import { HomeProviderWrapper } from "@/context";
 import CopyLink from "@/components/ui/copy-button";
 
@@ -19,11 +20,13 @@ export default async function Home() {
           <Suspense fallback={<ChartFallback />}>
             <Chart />
           </Suspense>
+          <Spectrum />
           <Suspense fallback={<UnitSuspense />}>
             <Logger />
           </Suspense>
         </div>
       </HomeProviderWrapper>
+
       <CopyLink />
       <ConfigureLink />
     </main>

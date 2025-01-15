@@ -5,6 +5,7 @@ import { getUserIdByUsername, getChartByID } from "@/actions";
 import { TableLayout } from "@/components/table-layout";
 import { ServerDot } from "@/components/server-dot";
 import SignUpLink from "@/components/ui/sign-up-button";
+import { Spectrum } from "@/components/ui/spectrum";
 
 type Params = Promise<{ username: string }>;
 
@@ -44,6 +45,10 @@ export default async function Page({ params }: { params: Params }) {
           </div>
         </TableLayout>
       </div>
+      <div className="flex justify-end w-5/6">
+        <Spectrum />
+      </div>
+
       <SignUpLink />
     </main>
   );
