@@ -17,7 +17,7 @@ export async function updateContribution(
   const dateString = format(new Date(), "yyyy-MM-dd");
   const currentYear = new Date().getFullYear();
   const daysInYear = getDaysInYear(currentYear);
-  const dayIndex = getDayOfYear(new Date()) - 1;
+  const dayIndex = getDayOfYear(new Date());
   try {
     const contributionRef = db.doc(
       `contributions/${dateString}/users/${userId}`
