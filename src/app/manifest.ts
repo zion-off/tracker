@@ -7,8 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "contribution chart for every day tasks",
     start_url: "/",
     display: "standalone",
-    background_color: "#fff",
-    theme_color: "#fff",
+    background_color: "#171717",
     icons: [
       {
         src: "/favicon.ico",
