@@ -7,7 +7,7 @@ const raleway = Raleway({ weight: ["400", "700"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "tracker",
-  description: "Contribution chart for every day tasks"
+  description: "contribution chart for every day tasks"
 };
 
 export default async function RootLayout({
