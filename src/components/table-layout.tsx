@@ -1,7 +1,4 @@
-import { Inter } from "next/font/google";
 import { memo } from "react";
-
-const inter = Inter({ weight: ["400", "700"], subsets: ["latin"] });
 
 export const TableLayout = memo(
   ({ children }: { children: React.ReactNode }) => {
@@ -28,7 +25,7 @@ export const TableLayout = memo(
         {months.map((month, index) => (
           <div
             key={index}
-            className={`p-1 ${inter.className} text-neutral-600 dark:text-neutral-300`}
+            className={`p-1 text-neutral-600 dark:text-neutral-300`}
           >
             {month}
           </div>
@@ -39,7 +36,7 @@ export const TableLayout = memo(
           {days.map((day, index) => (
             <div
               key={index}
-              className={`p-2 ${inter.className} text-neutral-600 dark:text-neutral-300`}
+              className={`p-2 text-neutral-600 dark:text-neutral-300`}
             >
               {day}
             </div>
