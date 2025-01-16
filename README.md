@@ -8,6 +8,7 @@ Key optimizations:
 - Next.js `unstable_cache`
 - `React.memo`, `useCallback`, and `useMemo`
 - Optimistic updates using `useOptimistic`
+- Streaming components with `<Suspense/>`
 - Firestore Admin SDK for server side data fetching
 - Partial cache layer with Redis
 - Colocated Redis and server in AWS `iad1`
