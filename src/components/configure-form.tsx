@@ -1,17 +1,17 @@
 "use client";
 
 import { useRef, useState, startTransition } from "react";
-import { v4 } from "uuid";
+import { ZodError } from "zod";
 import { Plus } from "lucide-react";
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { configureUnitSchema } from "@/utils";
-import { IUnit } from "@/interfaces";
+import { UnitType } from "@/interfaces";
 import { addUnit } from "@/actions";
 import { useConfigureContext } from "@/context/configure-context";
 
 export default function ConfigureForm() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const [isShaking, setIsShaking] = useState(false);
   const { units, setUnits, setOptimisticUnits } = useConfigureContext();
   const formRef = useRef<HTMLFormElement>(null);
@@ -20,23 +20,31 @@ export default function ConfigureForm() {
     const unitName = data.get("unit") as string;
     try {
       configureUnitSchema.parse(unitName);
+      if (units.includes(unitName.trim())) {
+        throw Error;
+      }
     } catch (error) {
       setIsShaking(true);
       setTimeout(() => {
         setIsShaking(false);
       }, 300);
-      toast({
-        title: "Try again!",
-        variant: "destructive",
-        description: "Unit name must be between 1 and 120 characters",
-      })
+      if (error instanceof ZodError) {
+        toast({
+          title: "Try again!",
+          variant: "destructive",
+          description: "Unit name must be between 1 and 120 characters",
+        });
+      } else {
+        toast({
+          title: "Try again!",
+          variant: "destructive",
+          description: "Unit name already exists",
+        });
+      }
       return;
     }
     formRef.current?.reset();
-    const dummyUnit: IUnit = {
-      unit: unitName,
-      ref: v4(),
-    };
+    const dummyUnit: UnitType = unitName;
     startTransition(() => {
       setOptimisticUnits({
         action: "add",

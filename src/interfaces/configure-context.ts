@@ -1,17 +1,17 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { IUnit } from "./unit";
+import { UnitType } from "./unit";
 
 export interface OptimisticAction {
   action: "add" | "delete" | "reset";
-  looseUnit?: IUnit;
-  prefetchedUnits?: IUnit[];
+  looseUnit?: UnitType;
+  prefetchedUnits?: UnitType[];
 }
 
 export interface IConfigureContext {
-  units: IUnit[];
-  setUnits: Dispatch<SetStateAction<IUnit[]>>;
-  optimisticUnits: IUnit[];
+  units: UnitType[];
+  setUnits: Dispatch<SetStateAction<UnitType[]>>;
+  optimisticUnits: UnitType[];
   setOptimisticUnits: ({
     action,
     looseUnit,

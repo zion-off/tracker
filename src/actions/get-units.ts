@@ -1,28 +1,26 @@
-'use server'
+"use server";
 
-import { unstable_cache } from 'next/cache';
+import { unstable_cache } from "next/cache";
 
-import { db } from '@/lib/firebase';
-import { IUnit } from '@/interfaces';
+import { db } from "@/lib/firebase";
+import { UnitType } from "@/interfaces";
 
 export const getUnits = unstable_cache(
-  async (id: string): Promise<IUnit[]> => {
-    const unitsRef = db.collection('units');
+  async (id: string): Promise<UnitType[]> => {
+    const unitsRef = db.collection("units");
     try {
-      const snapshot = await unitsRef.where('owner', '==', db.doc(`users/${id}`)).get();
-      const units: IUnit[] = snapshot.docs.map((doc) => {
+      const unitsSnapshot = await unitsRef
+        .where("owner", "==", db.doc(`users/${id}`))
+        .get();
+      const units: UnitType[] = unitsSnapshot.docs.map((doc) => {
         const unitData = doc.data();
-        return {
-          unit: unitData.unit,
-          ref: doc.ref.path,
-        };
+        return unitData.units;
       });
-      return units;
+      return units.flat();
     } catch (error: any) {
       throw new Error(`Error fetching units: ${error.message}`);
     }
   },
   undefined,
-  { revalidate: false, tags: ['units'] }
+  { revalidate: 3600, tags: ["units"] }
 );
-

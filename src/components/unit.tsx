@@ -5,19 +5,15 @@ import { useLongPress } from "@uidotdev/usehooks";
 import { X } from "lucide-react";
 
 import { useConfigureContext } from "@/context/configure-context";
-import { IUnit } from "@/interfaces";
+import { UnitType } from "@/interfaces";
 
 interface UnitProps {
-  unit: IUnit;
+  unit: UnitType;
   deleting: string;
-  handleDelete: (unit: IUnit) => void;
+  handleDelete: (unit: UnitType) => void;
 }
 
-const Unit = memo(function Unit({
-  unit,
-  deleting,
-  handleDelete,
-}: UnitProps) {
+const Unit = memo(function Unit({ unit, deleting, handleDelete }: UnitProps) {
   const { shaking, toggleIsShaking } = useConfigureContext();
   const attrs = useLongPress(
     () => {
@@ -36,13 +32,13 @@ const Unit = memo(function Unit({
     >
       <div
         className={`text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer ${
-          deleting === unit.ref
+          deleting === unit
             ? `bg-neutral-50 dark:bg-neutral-800`
             : `bg-neutral-100 dark:bg-neutral-900`
         } ${!shaking && `hover:bg-neutral-50  hover:dark:bg-neutral-800`}`}
       >
         <div className="text-neutral-600 dark:text-neutral-400 no-select">
-          {unit.unit}
+          {unit}
         </div>
       </div>
       {shaking && (

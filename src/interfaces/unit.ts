@@ -1,8 +1,6 @@
-export interface IUnit {
-  unit: string;
-  ref: string;
-}
+export type UnitType = string;
 
-export interface IUnitWithCount extends IUnit {
+export type UnitWithCountType = {
+  unit: string;
   count: number;
-}
+};

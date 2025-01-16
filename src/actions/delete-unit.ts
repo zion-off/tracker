@@ -1,17 +1,36 @@
-'use server'
+"use server";
 
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
 
-import { db } from '@/lib/firebase';
+import { auth } from "@/auth";
+import { db } from "@/lib/firebase";
+import { FieldValue } from "firebase-admin/firestore";
 
-export async function deleteUnit(path: string): Promise<void> {
+export async function deleteUnit(name: string): Promise<void> {
+  const session = await auth();
+  const id = session?.user?.id as string;
+  const unitsRef = db.collection("units");
   try {
-    const documentRef = db.doc(path);
-    await documentRef.delete();
-    revalidateTag('units');
-    revalidateTag('unit-count');
+    const snapshot = await unitsRef
+      .where("owner", "==", db.doc(`users/${id}`))
+      .get();
+
+    if (snapshot.empty) {
+      return;
+    }
+
+    const batch = db.batch();
+    snapshot.docs.forEach((doc) => {
+      batch.update(doc.ref, {
+        units: FieldValue.arrayRemove(name),
+      });
+    });
+
+    await batch.commit();
   } catch (error: any) {
     throw new Error(`Unable to delete unit ${error.message}`);
+  } finally {
+    revalidateTag("units");
+    revalidateTag("unit-count");
   }
 }
-

@@ -4,10 +4,10 @@ import { unstable_cache } from 'next/cache';
 import { format } from 'date-fns';
 
 import { db } from '@/lib/firebase';
-import { IUnitWithCount } from '@/interfaces';
+import { UnitWithCountType } from '@/interfaces';
 
 export const getUnitsCount = unstable_cache(
-  async (userId: string): Promise<IUnitWithCount[]> => {
+  async (userId: string): Promise<UnitWithCountType[]> => {
     const dateString = format(new Date(), 'yyyy-MM-dd');
 
     try {

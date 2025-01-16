@@ -1,34 +1,39 @@
-'use server'
+"use server";
 
-import { FieldValue } from 'firebase-admin/firestore';
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
+import { FieldValue } from "firebase-admin/firestore";
 
-import { IUnit } from '@/interfaces';
-import { db } from '@/lib/firebase';
-import { auth } from '@/auth';
+import { UnitType } from "@/interfaces";
+import { db } from "@/lib/firebase";
+import { auth } from "@/auth";
 
-export async function addUnit(data: FormData): Promise<IUnit> {
-  const unit = data.get('unit') as string;
+export async function addUnit(data: FormData): Promise<UnitType> {
+  const unit = data.get("unit") as string;
   const session = await auth();
   const id = session?.user?.id as string;
   const userRef = db.doc(`users/${id}`);
+  const unitsRef = db.collection("units");
 
   try {
-    const docRef = await db.collection('units').add({
-      owner: userRef,
-      unit: unit,
-      created_at: FieldValue.serverTimestamp(),
-    });
+    const snapshot = await unitsRef.where("owner", "==", userRef).get();
 
-    revalidateTag('units');
-    revalidateTag('unit-count');
-
-    return {
-      unit: unit,
-      ref: docRef.path,
-    };
+    if (snapshot.empty) {
+      await unitsRef.add({
+        owner: userRef,
+        units: [unit],
+      });
+    } else {
+      const docRef = snapshot.docs[0].ref;
+      await docRef.update({
+        units: FieldValue.arrayUnion(unit),
+      });
+    }
+    
+    return unit;
   } catch (error: any) {
     throw new Error(`Unable to add unit: ${error.message}`);
+  } finally {
+    revalidateTag("units");
+    revalidateTag("unit-count");
   }
 }
-

@@ -23,14 +23,13 @@ export async function updateContribution(
       `contributions/${dateString}/users/${userId}`
     );
 
-    const incrementValue = operation === "increment" ? 1 : -1;
+    const delta = operation === "increment" ? 1 : -1;
 
     await contributionRef.set(
       {
         owner: userId,
-        date: FieldValue.serverTimestamp(),
-        contributions: {
-          [path]: FieldValue.increment(incrementValue),
+        counts: {
+          [path]: FieldValue.increment(delta),
         },
       },
       { merge: true }
@@ -43,20 +42,18 @@ export async function updateContribution(
       ? chartDoc.data()?.counts
       : new Array(daysInYear).fill(0);
 
-    counts[dayIndex] = (counts[dayIndex] || 0) + incrementValue;
-
-    revalidateTag("unit-count");
+    counts[dayIndex] = (counts[dayIndex] || 0) + delta;
 
     await chartRef.set(
       {
-        year: currentYear,
-        counts: counts,
+        [dayIndex]: FieldValue.increment(delta),
       },
       { merge: true }
     );
-
-    revalidateTag("chart");
   } catch (error: any) {
     throw new Error(`Error updating contributions: ${error.message}`);
+  } finally {
+    revalidateTag("unit-count");
+    revalidateTag("chart");
   }
 }

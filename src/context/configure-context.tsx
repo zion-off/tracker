@@ -9,16 +9,16 @@ import {
   useMemo,
 } from "react";
 
-import { IUnit, OptimisticAction, IConfigureContext } from "@/interfaces";
+import { UnitType, OptimisticAction, IConfigureContext } from "@/interfaces";
 
 const ConfigureContext = createContext<IConfigureContext | null>(null);
 
 export function ConfigureProvider({ children }: { children: ReactNode }) {
-  const [units, setUnits] = useState<IUnit[]>([]);
+  const [units, setUnits] = useState<UnitType[]>([]);
   const [optimisticUnits, setOptimisticUnits] = useOptimistic(
     units,
     (
-      state: IUnit[],
+      state: UnitType[],
       { action, looseUnit, prefetchedUnits }: OptimisticAction
     ) => {
       switch (action) {
@@ -26,7 +26,7 @@ export function ConfigureProvider({ children }: { children: ReactNode }) {
           return looseUnit ? [...state, looseUnit] : state;
         case "delete":
           return looseUnit
-            ? state.filter((unit) => unit.ref !== looseUnit.ref)
+            ? state.filter((unit) => unit !== looseUnit)
             : state;
         case "reset":
           return [...(prefetchedUnits || [])];

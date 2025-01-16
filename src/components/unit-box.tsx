@@ -2,13 +2,15 @@
 
 import { useEffect, useState, useCallback, startTransition, memo } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
+import { v4 } from "uuid";
+
 import Unit from "@/components/unit";
-import { IUnit } from "@/interfaces";
+import { UnitType } from "@/interfaces";
 import { deleteUnit } from "@/actions";
 import { useConfigureContext } from "@/context/configure-context";
 
 export const UnitBox = memo(
-  ({ prefetchedUnits }: { prefetchedUnits: IUnit[] }) => {
+  ({ prefetchedUnits }: { prefetchedUnits: UnitType[] }) => {
     const {
       units,
       setUnits,
@@ -36,9 +38,9 @@ export const UnitBox = memo(
     }) as React.MutableRefObject<HTMLDivElement>;
 
     const handleDelete = useCallback(
-      async (unit: IUnit) => {
+      async (unit: UnitType) => {
         const previousUnits = [...units];
-        setDeleting(unit.ref);
+        setDeleting(unit);
         startTransition(() => {
           setOptimisticUnits({
             action: "delete",
@@ -46,8 +48,8 @@ export const UnitBox = memo(
           });
         });
         try {
-          await deleteUnit(unit.ref);
-          setUnits((prev) => prev.filter((u) => u.ref !== unit.ref));
+          await deleteUnit(unit);
+          setUnits((prev) => prev.filter((u) => u !== unit));
         } catch (error: any) {
           setUnits(previousUnits);
         } finally {
@@ -61,7 +63,7 @@ export const UnitBox = memo(
       <div ref={boxRef} className="flex flex-wrap gap-3">
         {optimisticUnits.map((item) => (
           <Unit
-            key={item.ref}
+            key={v4()}
             unit={item}
             deleting={deleting}
             handleDelete={handleDelete}
