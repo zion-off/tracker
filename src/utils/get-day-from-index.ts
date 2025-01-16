@@ -3,7 +3,7 @@ export const getDayFromIndex = (
   year = new Date().getFullYear()
 ) => {
   const date = new Date(year, 0);
-  date.setDate(dayIndex + 1);
+  date.setDate(dayIndex);
   return date.toLocaleDateString("en-us", {
     year: "numeric",
     month: "short",

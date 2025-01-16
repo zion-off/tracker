@@ -13,10 +13,9 @@ contributions (collection)
   └── "2025-01-15" (document)
       └── users (sub-collection)
           └── userId123 (document)
-              ├── owner: /users/userId123 (reference to a user document)
               ├── counts: {
-                    "path1": 10,
-                    "path2": 5
+                    "name1": 10,
+                    "name2": 5
                 }
 
 chart (collection)

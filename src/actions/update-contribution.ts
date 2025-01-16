@@ -9,47 +9,41 @@ import { db } from "@/lib/firebase";
 import { getDaysInYear } from "@/utils";
 
 export async function updateContribution(
-  path: string,
+  unitName: string,
   operation: "increment" | "decrement"
 ) {
   const session = await auth();
   const userId = session?.user?.id as string;
   const dateString = format(new Date(), "yyyy-MM-dd");
   const currentYear = new Date().getFullYear();
-  const daysInYear = getDaysInYear(currentYear);
   const dayIndex = getDayOfYear(new Date());
+  const contributionRef = db.doc(`contributions/${dateString}/users/${userId}`);
+  const chartRef = db.doc(`charts/${userId}/years/${currentYear}`);
+  const delta = operation === "increment" ? 1 : -1;
+
+  console.log(unitName, operation);
+  const batch = db.batch();
+
+  batch.set(
+    contributionRef,
+    {
+      counts: {
+        [unitName]: FieldValue.increment(delta),
+      },
+    },
+    { merge: true }
+  );
+
+  batch.set(
+    chartRef,
+    {
+      [dayIndex - 1]: FieldValue.increment(delta),
+    },
+    { merge: true }
+  );
+
   try {
-    const contributionRef = db.doc(
-      `contributions/${dateString}/users/${userId}`
-    );
-
-    const delta = operation === "increment" ? 1 : -1;
-
-    await contributionRef.set(
-      {
-        owner: userId,
-        counts: {
-          [path]: FieldValue.increment(delta),
-        },
-      },
-      { merge: true }
-    );
-
-    const chartRef = db.doc(`charts/${userId}/years/${currentYear}`);
-
-    const chartDoc = await chartRef.get();
-    let counts = chartDoc.exists
-      ? chartDoc.data()?.counts
-      : new Array(daysInYear).fill(0);
-
-    counts[dayIndex] = (counts[dayIndex] || 0) + delta;
-
-    await chartRef.set(
-      {
-        [dayIndex]: FieldValue.increment(delta),
-      },
-      { merge: true }
-    );
+    await batch.commit();
   } catch (error: any) {
     throw new Error(`Error updating contributions: ${error.message}`);
   } finally {

@@ -5,10 +5,10 @@ import { useLongPress } from "@uidotdev/usehooks";
 import { getDayOfYear } from "date-fns";
 
 import { useHomeContext } from "@/context";
-import { IUnitWithCount } from "@/interfaces";
+import { UnitWithCountType } from "@/interfaces";
 import { updateContribution } from "@/actions/update-contribution";
 
-export default function Contribution({ unit }: { unit: IUnitWithCount }) {
+export default function Contribution({ unit }: { unit: UnitWithCountType }) {
   const { updateDot, updateMaxValue } = useHomeContext();
   const [count, setCount] = useState(unit.count);
   const isLongPressRef = useRef(false);
@@ -43,7 +43,7 @@ export default function Contribution({ unit }: { unit: IUnitWithCount }) {
     try {
       setCount((prev) => prev + delta);
       updateDot(dayIndex, count + delta);
-      await updateContribution(unit.ref, action);
+      await updateContribution(unit.unit, action);
       updateMaxValue(count + delta);
     } catch (error: any) {
       setCount((prev) => prev - delta);
