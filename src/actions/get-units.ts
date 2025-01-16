@@ -13,7 +13,9 @@ export const getUnits = unstable_cache(
         .where("owner", "==", db.doc(`users/${id}`))
         .get();
 
-      return unitsSnapshot.docs[0].data().units;
+      return unitsSnapshot.docs.length === 0
+        ? []
+        : unitsSnapshot.docs[0].data().units;
     } catch (error: any) {
       throw new Error(`Error fetching units: ${error.message}`);
     }

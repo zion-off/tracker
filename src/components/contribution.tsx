@@ -57,7 +57,7 @@ export default function Contribution({ unit }: { unit: UnitWithCountType }) {
       {...attrs}
       onClick={handleClick}
       onContextMenu={(e) => e.preventDefault()}
-      className="bg-neutral-100 dark:bg-neutral-900 hover:bg-neutral-50 hover:dark:bg-neutral-800 text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex items-center gap-1 cursor-pointer"
+      className="bg-neutral-100 dark:bg-neutral-900 md:hover:bg-neutral-50 md:hover:dark:bg-neutral-800 text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex items-center gap-1 cursor-pointer no-select"
     >
       <p className="text-neutral-600 dark:text-neutral-400 no-select">
         {unit.unit}

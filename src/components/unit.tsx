@@ -28,16 +28,16 @@ const Unit = memo(function Unit({ unit, deleting, handleDelete }: UnitProps) {
     <div
       {...attrs}
       onContextMenu={(e) => e.preventDefault()}
-      className={`relative origin-jiggle ${shaking && `animate-jiggle`}`}
+      className={`no-select relative origin-jiggle ${shaking && `animate-jiggle`}`}
     >
       <div
         className={`text-xs p-2 rounded-md border dark:border-zinc-800 border-gray-300 flex gap-1 cursor-pointer ${
           deleting === unit
             ? `bg-neutral-50 dark:bg-neutral-800`
             : `bg-neutral-100 dark:bg-neutral-900`
-        } ${!shaking && `hover:bg-neutral-50  hover:dark:bg-neutral-800`}`}
+        } ${!shaking && `md:hover:bg-neutral-50  md:hover:dark:bg-neutral-800`}`}
       >
-        <div className="text-neutral-600 dark:text-neutral-400 no-select">
+        <div className="text-neutral-600 dark:text-neutral-400 ">
           {unit}
         </div>
       </div>
@@ -45,7 +45,7 @@ const Unit = memo(function Unit({ unit, deleting, handleDelete }: UnitProps) {
         <X
           onClick={() => handleDelete(unit)}
           size={20}
-          className="p-1 bg-gray-300 hover:bg-gray-400 dark:stroke-zinc-900 rounded-full dark:border dark:border-zinc-800 absolute right-0 translate-x-1/2 -translate-y-1/2 top-0 cursor-pointer"
+          className="p-1 bg-gray-300 md:hover:bg-gray-400 dark:stroke-zinc-900 rounded-full dark:border dark:border-zinc-800 absolute right-0 translate-x-1/2 -translate-y-1/2 top-0 cursor-pointer"
         />
       )}
     </div>
