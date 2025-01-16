@@ -12,11 +12,8 @@ export const getUnits = unstable_cache(
       const unitsSnapshot = await unitsRef
         .where("owner", "==", db.doc(`users/${id}`))
         .get();
-      const units: UnitType[] = unitsSnapshot.docs.map((doc) => {
-        const unitData = doc.data();
-        return unitData.units;
-      });
-      return units.flat();
+
+      return unitsSnapshot.docs[0].data().units;
     } catch (error: any) {
       throw new Error(`Error fetching units: ${error.message}`);
     }

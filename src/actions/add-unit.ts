@@ -15,20 +15,23 @@ export async function addUnit(data: FormData): Promise<UnitType> {
   const unitsRef = db.collection("units");
 
   try {
-    const snapshot = await unitsRef.where("owner", "==", userRef).get();
+    await db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(
+        unitsRef.where("owner", "==", userRef)
+      );
 
-    if (snapshot.empty) {
-      await unitsRef.add({
-        owner: userRef,
-        units: [unit],
-      });
-    } else {
-      const docRef = snapshot.docs[0].ref;
-      await docRef.update({
-        units: FieldValue.arrayUnion(unit),
-      });
-    }
-    
+      if (snapshot.empty) {
+        transaction.create(unitsRef.doc(), {
+          owner: userRef,
+          units: [unit],
+        });
+      } else {
+        transaction.update(snapshot.docs[0].ref, {
+          units: FieldValue.arrayUnion(unit),
+        });
+      }
+    });
+
     return unit;
   } catch (error: any) {
     throw new Error(`Unable to add unit: ${error.message}`);

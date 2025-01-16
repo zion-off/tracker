@@ -8,14 +8,26 @@ export async function getChartByID(
   year = new Date().getFullYear()
 ) {
   const chartRef = db.doc(`charts/${userId}/years/${year}`);
+  const daysInYear = getDaysInYear(year);
 
   try {
     const chartDoc = await chartRef.get();
+
     if (!chartDoc.exists) {
-      return new Array(getDaysInYear(year)).fill(0);
+      return new Array(daysInYear).fill(0);
     }
 
-    return chartDoc.data()?.counts;
+    const chartData = chartDoc.data() || {};
+    const chart = new Array(daysInYear).fill(0);
+
+    Object.entries(chartData).forEach(([dayIndex, value]) => {
+      const index = parseInt(dayIndex, 10);
+      if (!isNaN(index) && index >= 0 && index < daysInYear) {
+        chart[index] = value;
+      }
+    });
+
+    return chart;
   } catch (error: any) {
     throw new Error(`Failed to fetch chart data: ${error.message}`);
   }

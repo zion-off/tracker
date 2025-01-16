@@ -10,29 +10,29 @@ import { getUnits } from "./get-units";
 export const getUnitsCount = unstable_cache(
   async (userId: string): Promise<UnitWithCountType[]> => {
     const dateString = format(new Date(), "yyyy-MM-dd");
+    const contributionRef = db.doc(
+      `contributions/${dateString}/users/${userId}`
+    );
 
     try {
-      const units = await getUnits(userId);
+      const [units, contributionDoc] = await Promise.all([
+        getUnits(userId),
+        contributionRef.get(),
+      ]);
+
       const unitsData = units.map((unit) => ({
         unit: unit,
         count: 0,
       }));
 
-      const contributionRef = db.doc(
-        `contributions/${dateString}/users/${userId}`
-      );
-      const contributionDoc = await contributionRef.get();
-
       const contributions = contributionDoc.exists
-        ? contributionDoc.data()?.counts
+        ? contributionDoc.data()?.counts || {}
         : {};
 
-      const unitsWithCounts = unitsData.map((data) => ({
+      return unitsData.map((data) => ({
         unit: data.unit,
         count: contributions[data.unit] || 0,
       }));
-
-      return unitsWithCounts;
     } catch (error) {
       throw error;
     }

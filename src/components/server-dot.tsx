@@ -4,6 +4,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useCallback } from "react";
 
 export function ServerDot({
   maxChartValue,
@@ -14,7 +15,7 @@ export function ServerDot({
   contribution: number;
   index: number;
 }) {
-  const colorClass = () => {
+  const colorClass = useCallback(() => {
     if (contribution === 0) return colors[4];
 
     const percentage = (contribution / maxChartValue) * 100;
@@ -23,7 +24,7 @@ export function ServerDot({
     if (percentage <= 50) return colors[2];
     if (percentage <= 75) return colors[1];
     return colors[0];
-  };
+  }, [contribution, maxChartValue, index]);
 
   return (
     <HoverCard>

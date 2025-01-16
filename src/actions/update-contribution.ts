@@ -6,7 +6,6 @@ import { FieldValue } from "firebase-admin/firestore";
 
 import { auth } from "@/auth";
 import { db } from "@/lib/firebase";
-import { getDaysInYear } from "@/utils";
 
 export async function updateContribution(
   unitName: string,
@@ -21,7 +20,6 @@ export async function updateContribution(
   const chartRef = db.doc(`charts/${userId}/years/${currentYear}`);
   const delta = operation === "increment" ? 1 : -1;
 
-  console.log(unitName, operation);
   const batch = db.batch();
 
   batch.set(

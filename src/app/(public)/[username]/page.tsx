@@ -26,6 +26,9 @@ export default async function Page({ params }: { params: Params }) {
   if (!userId) {
     return notFound();
   }
+  const year = new Date().getFullYear();
+  const invisibleDots = new Array(new Date(year, 0).getDay()).fill(-1);
+
   const chart: number[] = await getChartByID(userId);
   const max = Math.max(...chart);
 
@@ -34,6 +37,12 @@ export default async function Page({ params }: { params: Params }) {
       <div className="w-5/6 md:max-w-[900px] my-4 border border-slate-200 dark:border-zinc-800 p-5 rounded-md overflow-x-scroll">
         <TableLayout>
           <div className="h-full w-full grid grid-rows-7 grid-flow-col">
+            {invisibleDots.map((_, index) => (
+              <div
+                key={index}
+                className="aspect-squarebg-transparent text-xs flex items-center justify-center h-[10px] rounded-sm cursor-pointer"
+              />
+            ))}
             {chart.map((_, index) => (
               <ServerDot
                 key={index}
@@ -45,7 +54,10 @@ export default async function Page({ params }: { params: Params }) {
           </div>
         </TableLayout>
       </div>
-      <div className="flex justify-end w-5/6">
+      <div className="flex justify-between w-5/6">
+        <p className="text-xxs">
+          {username}'s daily contributions in {year}
+        </p>
         <Spectrum />
       </div>
 
