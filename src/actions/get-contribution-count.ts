@@ -38,5 +38,5 @@ export const getUnitsCount = unstable_cache(
     }
   },
   undefined,
-  { revalidate: false, tags: ["unit-count"] }
+  { revalidate: 21600, tags: ["unit-count"] }
 );

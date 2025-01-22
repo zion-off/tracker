@@ -21,5 +21,5 @@ export const getUnits = unstable_cache(
     }
   },
   undefined,
-  { revalidate: 3600, tags: ["units"] }
+  { revalidate: 21600, tags: ["units"] }
 );

@@ -36,5 +36,5 @@ export const getChartData = unstable_cache(
     }
   },
   undefined,
-  { revalidate: false, tags: ["chart"] }
+  { revalidate: 21600, tags: ["chart"] }
 );
