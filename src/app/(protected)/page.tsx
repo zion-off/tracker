@@ -12,17 +12,17 @@ import CopyLink from "@/components/ui/copy-button";
 
 export default async function Home() {
   const session = await auth();
-  if (!session) return;
+  const userId = session?.user?.id as string;
   return (
     <main className="flex flex-col absolute inset-0 justify-center items-center ">
       <HomeProviderWrapper>
         <div className="w-5/6 md:max-w-[842px]">
           <Suspense fallback={<ChartFallback />}>
-            <Chart />
+            <Chart userId={userId} />
           </Suspense>
           <Spectrum />
           <Suspense fallback={<UnitSuspense />}>
-            <Logger />
+            <Logger userId={userId} />
           </Suspense>
         </div>
       </HomeProviderWrapper>

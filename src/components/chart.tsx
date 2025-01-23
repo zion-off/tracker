@@ -1,16 +1,13 @@
 import { Dots } from "./dots";
-import { auth } from "@/auth";
 import { TableLayout } from "./table-layout";
 import { getChartData } from "@/actions/get-chart";
 import { ChartWithColorsType } from "@/interfaces";
 import { getColorIndex } from "@/utils/get-color-index";
 
-export default async function Chart() {
-  const session = await auth();
-  const id = session?.user?.id as string;
+export default async function Chart({userId}: {userId: string}) {
   // TODO: Change this to accepting year as a prop
   const year = new Date().getFullYear();
-  const chart = await getChartData(id, year.toString());
+  const chart = await getChartData(userId, year.toString());
   const invisibleDots = new Array(new Date(year, 0).getDay()).fill(-1);
   const maxValue = Math.max(...chart);
   const chartWithColors: ChartWithColorsType[] = chart.map((item: number) => [
