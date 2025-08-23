@@ -9,27 +9,82 @@ import React, {
   memo,
 } from "react";
 
+import { getChartData } from "@/actions/get-chart";
 import Dot from "./dot";
 import HoverBox from "./ui/hover-box";
 import { useHomeContext } from "@/context";
 import { ChartWithColorsType } from "@/interfaces";
 import { hoverCardWord } from "@/utils";
+import { getColorIndex } from "@/utils/get-color-index";
 
 export const Dots = memo(
-  ({ chart, padding }: { chart: ChartWithColorsType[]; padding: number[] }) => {
+  ({
+    id,
+    padding,
+  }: {
+    id: string;
+    padding: number[];
+  }) => {
     const { dots, setAllDots, updateMaxValue } = useHomeContext();
     const [hoveredDotIndex, setHoveredDotIndex] = useState<number | null>(null);
     const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
-    const maxValue = chart.reduce(
-      (max, item) => Math.max(max, item[0]),
-      -Infinity
-    );
+    const fetchChartData = useCallback(async () => {
+      const year = new Date().getFullYear();
+      const fetchedChart = await getChartData(id, year.toString());
+      return fetchedChart;
+    }, [id]);
 
     useEffect(() => {
-      updateMaxValue(maxValue);
-      setAllDots(chart);
-    }, []);
+      const loadChartData = async () => {
+        try {
+          // get chart from local storage if available
+          const storedChart = localStorage.getItem(`chart-${id}`);
+          if (storedChart) {
+            const parsedChart = JSON.parse(storedChart) as ChartWithColorsType[];
+            const maxValue = parsedChart.reduce(
+              (max, item) => Math.max(max, item[0]),
+              -Infinity
+            );
+            updateMaxValue(maxValue);
+            setAllDots(parsedChart);
+
+            setTimeout(async () => {
+              try {
+                const fetchedChart = await fetchChartData();
+                if (fetchedChart) {
+                  const chartWithColors: ChartWithColorsType[] = fetchedChart.map(
+                    (item: number) => [item, getColorIndex(item, maxValue)]
+                  );
+                  const newMaxValue = Math.max(
+                    ...chartWithColors.map((item) => item[0])
+                  );
+                  updateMaxValue(newMaxValue);
+                  setAllDots(chartWithColors);
+                  localStorage.setItem(`chart-${id}`, JSON.stringify(chartWithColors));
+                }
+              } catch (error) {
+                console.error('Error fetching fresh chart data:', error);
+              }
+            }, 0);
+          } else {
+            const fetchedChart = await fetchChartData();
+            if (!fetchedChart) {
+              return;
+            }
+            const chartWithColors: ChartWithColorsType[] = fetchedChart.map(
+              (item: number) => [item, getColorIndex(item, -1)]
+            );
+            setAllDots(chartWithColors);
+            localStorage.setItem(`chart-${id}`, JSON.stringify(chartWithColors));
+          }
+        } catch (error) {
+          console.error('Error loading chart data:', error);
+        }
+      };
+
+      loadChartData();
+    }, [id, fetchChartData]);
 
     const handleMouseMove = useCallback(
       (e: MouseEvent) => {
@@ -77,16 +132,19 @@ export const Dots = memo(
       [dots]
     );
 
-    const invisibleDots = padding.map((_, index) => (
-      <Dot key={index} dot={"bg-transparent cursor-default"} />
-    ));
+    const invisibleDots = useMemo(
+      () => padding.map((_, index) => (
+        <Dot key={`invisible-${index}`} dot={"bg-transparent cursor-default"} />
+      )),
+      [padding]
+    );
 
     const hoverText = useMemo(() => {
-      if (hoveredDotIndex !== null) {
+      if (hoveredDotIndex !== null && dots[hoveredDotIndex]) {
         return hoverCardWord(dots[hoveredDotIndex][0], hoveredDotIndex);
       }
       return "";
-    }, [hoveredDotIndex]);
+    }, [hoveredDotIndex, dots]);
 
     const handleMouseLeave = useCallback(() => {
       setHoveredDotIndex(null);
@@ -125,3 +183,5 @@ export const Dots = memo(
     );
   }
 );
+
+Dots.displayName = 'Dots';
